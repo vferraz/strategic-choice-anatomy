@@ -1,0 +1,82 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "strategic-choice-anatomy"
+version = "0.1.0"
+description = "The internal anatomy of strategic choice in large language models — code and analysis for the 2x2-game substrate, causal steering, and layered representational analysis."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+# Base runtime: everything the torch-free surface of the package needs.
+dependencies = [
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "pyarrow>=14.0.0",
+]
+
+[project.optional-dependencies]
+# Tier 1 + Tier 2: rebuild figures and regenerate tables. No GPU, no torch.
+analysis = [
+    "scipy>=1.11.0",
+    "scikit-learn>=1.4.0",
+    "matplotlib>=3.7.0",
+    "statsmodels>=0.14.0",
+    "shap>=0.44.0",
+    "nashpy>=0.0.35",
+    "umap-learn>=0.5.0",
+    "adjustText>=1.0.0",
+    "nbformat>=5.9.0",
+    "nbconvert>=7.0.0",
+    "jupyter>=1.0.0",
+    "jupytext>=1.16.0",
+]
+
+# Tier 3: re-collect the substrate. bitsandbytes 8-bit loading is CUDA/Linux only.
+gpu = [
+    "torch>=2.1.0",
+    "transformers>=4.38.0",
+    "accelerate>=0.25.0",
+    "bitsandbytes>=0.42.0; sys_platform == 'linux'",
+]
+
+# GPT-OSS MXFP4 kernel stack (see docs/ENVIRONMENTS.md; exact versions pinned in Phase 6).
+gptoss = [
+    "kernels>=0.4.0",
+    "openai-harmony>=0.0.1",
+    "triton>=3.0.0; sys_platform == 'linux'",
+]
+
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.hatch.build.targets.wheel]
+# Only the library is distributed. `collection/`, `steering/` (and later
+# `features/`, `analysis/`) are repository scripts, deliberately NOT installed —
+# `collection` and `analysis` are far too generic to claim as top-level import
+# names in a published wheel.
+packages = ["strategic_anatomy"]
+# ...but an editable install writes the repository root onto sys.path, so a script
+# run as `python collection/generate_dense_substrate.py` (where sys.path[0] is
+# `collection/`, not the repo root) can still do `from steering.causal_common import ...`.
+# This is what lets every source file stay free of sys.path manipulation.
+dev-mode-dirs = ["."]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Second, independent path mechanism, so the suite also passes without an editable install.
+pythonpath = ["."]
+addopts = ["-ra", "--strict-markers"]
+markers = [
+    "tier2: regenerates a table from the released substrate and hash-compares it against the committed copy (needs SCA_DATA_ROOT)",
+    "gpu: requires a CUDA GPU and the [gpu] extra",
+]

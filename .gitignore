@@ -1,0 +1,45 @@
+# --------------------------------------------------------------------------
+# Heavy released data — fetched by scripts/download_data.py, never tracked.
+# --------------------------------------------------------------------------
+data_heavy/
+
+# --------------------------------------------------------------------------
+# Figures: local rebuilds are ignored; the committed reference renders are not.
+# --------------------------------------------------------------------------
+**/figures/*.pdf
+**/figures/*.png
+!data/results/figures_reference/**
+
+# --------------------------------------------------------------------------
+# Binary data artifacts. Everything tracked lives under data/.
+# (Negations must follow their ignore rule, and data/ itself is never ignored —
+#  git does not descend into an ignored directory.)
+# --------------------------------------------------------------------------
+*.npz
+*.npy
+*.parquet
+!data/**/*.npz
+!data/**/*.npy
+!data/**/*.parquet
+
+# --------------------------------------------------------------------------
+# Python
+# --------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+.venv*/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# --------------------------------------------------------------------------
+# Secrets and OS cruft
+# --------------------------------------------------------------------------
+.env
+.env.*
+.DS_Store
+Thumbs.db
