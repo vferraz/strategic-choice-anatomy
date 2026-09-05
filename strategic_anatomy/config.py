@@ -20,7 +20,12 @@ Two kinds of data:
         gptoss_recap/{game}/
         layerc/{model}/{game}/
         layerc_bridge_residuals/{model}/{game}/
-        steering/{smalldose,perm,directions,saturated}/
+        steering/{smalldose,smalldose_q05,perm,perm_q05}/
+        steering/directions/{akata,akata_perp,akata_perm,
+                             akata_q05,akata_q05_perp,akata_q05_perm}/{model}/
+        layer_b_cache/            # regenerable, not part of the deposit
+
+  See ``docs/DATA.md`` for the per-artifact schemas.
 
 * **Small, git-tracked** — everything under ``data/`` in this repository: the game
   metadata, the derived human references, the run manifests, and every committed
@@ -45,6 +50,7 @@ __all__ = [
     "layerc_root",
     "layerc_bridge_root",
     "steering_root",
+    "layer_b_cache_root",
     "games_root",
     "game_features_csv",
     "taxonomy_dir",
@@ -60,6 +66,10 @@ DATA_ROOT_ENV = "SCA_DATA_ROOT"
 #: Environment variable overriding repository-root detection (rarely needed; useful when
 #: the package is installed non-editably and the git-tracked ``data/`` tree lives elsewhere).
 REPO_ROOT_ENV = "SCA_REPO_ROOT"
+
+#: Environment variable overriding the committed-tables location. Set this to a scratch
+#: copy to run a builder without writing over the committed ``data/results/`` tree.
+RESULTS_ROOT_ENV = "SCA_RESULTS_ROOT"
 
 _PACKAGE_DIR = Path(__file__).resolve().parent
 
@@ -116,15 +126,41 @@ def layerc_bridge_root() -> Path:
 
 
 def steering_root() -> Path:
-    """Causal steering outputs: ``steering/{smalldose,perm,directions,saturated}/``."""
+    """Causal steering outputs: ``steering/{smalldose,perm,directions,saturated}/``.
+
+    The released incentive arm is the **q = 0.5** one: ``smalldose_q05``, ``perm_q05`` and the
+    ``directions/akata_q05{,_perp,_perm}`` sets. The unsuffixed ``smalldose``, ``perm`` and
+    ``directions/akata{,_perp,_perm}`` are the pre-correction empirical-belief arm, retained as
+    history (``docs/METHODS.md`` §6.4).
+    """
     return data_root() / "steering"
+
+
+def layer_b_cache_root() -> Path:
+    """Regenerable Layer-B residual cache (~4.5 GB).
+
+    NOT part of the data deposit: ``analysis/layer_b/build_residual_cache.py`` rebuilds it
+    from :func:`substrate_root` in about 90 seconds. It lives under ``$SCA_DATA_ROOT``
+    rather than in the repository because it is large and derived.
+    """
+    return data_root() / "layer_b_cache"
 
 
 # --------------------------------------------------------------- small, git-tracked data
 
 
 def results_root() -> Path:
-    """Committed analysis tables — what a Tier-1 figure rebuild reads."""
+    """Committed analysis tables — what a Tier-1 figure rebuild reads.
+
+    Honours ``SCA_RESULTS_ROOT``. Several Tier-2 builders *write* here by design
+    (``build_attribution.py``, ``router_bottleneck_analysis.py``,
+    ``figscripts/fig3_qre_to_levelk.py``, ``figscripts/fig2_trait_steering.py``), so
+    pointing this at a scratch copy is how you rebuild figures without touching the
+    committed tables. ``scripts/dev/tier1_figures.sh`` does exactly that.
+    """
+    override = os.environ.get(RESULTS_ROOT_ENV)
+    if override:
+        return Path(override).expanduser().resolve()
     return repo_root() / "data" / "results"
 
 

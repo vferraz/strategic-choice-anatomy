@@ -1,0 +1,76 @@
+name: tier-1
+
+# Everything a fresh clone can do: no GPU, no 21 GB deposit download.
+# Tier 2 (regenerate the table families from the deposit) is a documented local target — see
+# REPRODUCING.md — because it needs the deposit and hours of CPU.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tier1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python 3.11
+        run: uv python install 3.11
+
+      - name: Install the package
+        # [dev] carries pytest, so "[analysis]" alone cannot run the suite.
+        run: |
+          uv venv --python 3.11
+          uv pip install -e ".[analysis,dev]"
+
+      - name: Import surface is torch-free
+        # Tier 1 and Tier 2 must work without the [gpu] extra. This fails loudly if a
+        # torch import creeps into the analysis path.
+        run: |
+          uv run python - <<'PY'
+          import sys
+          import strategic_anatomy, strategic_anatomy.config, strategic_anatomy.games
+          import strategic_anatomy.prompting, strategic_anatomy.paper_style, strategic_anatomy.eq_engine
+          import collection.oneshot_common, collection.akata_common, steering.causal_common
+          import analysis.probe_common
+          assert "torch" not in sys.modules, "torch was imported by the Tier-1/2 surface"
+          print("OK — torch-free analysis surface")
+          PY
+
+      - name: Tests
+        run: uv run python -m pytest -q -m "not tier2 and not gpu"
+
+      - name: Committed data matches the manifest
+        run: uv run python scripts/download_data.py --verify-committed
+
+      - name: Manifest is up to date
+        run: uv run python scripts/dev/build_manifest.py --check
+
+      - name: Tier-1 figures rebuild from committed tables
+        run: make figures-tier1
+
+      - name: Hygiene — no machine paths or secrets in tracked files
+        run: bash scripts/dev/check_hygiene.sh
+
+      - name: Upload rebuilt figures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tier1-figures
+          path: |
+            analysis/**/figures/*.pdf
+          if-no-files-found: warn
+          retention-days: 14

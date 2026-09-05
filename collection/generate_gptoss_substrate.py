@@ -1,6 +1,6 @@
 """PRODUCTION gpt-oss Akata substrate capture (harmony arm).
 
-Per docs/AKATA_ONESHOT_RECOLLECTION.md + the locked gpt-oss handling (AKATA_PREFLIGHT_HANDOVER.md):
+Per docs/METHODS.md + the locked gpt-oss handling (docs/METHODS.md):
   - harmony CHAT TEMPLATE (game text verbatim in the user turn) + PURE GREEDY (no penalty) -> NO loop
   - per-cell classify the harmony final channel: pure / mixed (strategic non-commit) / none
   - capture position: pure -> commit letter; mixed -> analysis->final TRANSITION; none -> no capture
@@ -241,7 +241,7 @@ def main():
     p.add_argument("--attn_impl", default="sdpa")
     args = p.parse_args()
     if not _kernels_available():
-        raise SystemExit("kernels missing — run under .venv_gptoss (CLAUDE.md #7).")
+        raise SystemExit("kernels missing — run under the gpt-oss env (docs/ENVIRONMENTS.md; docs/METHODS.md HC-7).")
 
     config = json.loads(Path(args.config).read_text())
     model_cfg = config["models"]["gptoss"]

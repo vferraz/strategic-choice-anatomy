@@ -1,7 +1,7 @@
 """DENSE Akata one-shot substrate capture (qwen / qwen_instruct / llama31_instruct).
 
 ADDITIVE peer of generate_oneshot_substrate.py, repointed to the LOCKED corrected substrate
-(docs/AKATA_ONESHOT_RECOLLECTION.md): Akata sentence-form prompt + 4-cell cb + **generate->parse
+(docs/METHODS.md): Akata sentence-form prompt + 4-cell cb + **generate->parse
 J/P** decode (the realized decision; slot readout demoted to a diagnostic `pref0`) + **ALL-layer
 residual capture incl L0**. The original A/B-matrix entrypoint is untouched.
 

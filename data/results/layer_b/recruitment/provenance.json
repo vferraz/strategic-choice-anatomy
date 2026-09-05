@@ -1,0 +1,25 @@
+{
+  "analysis": "analysis/layerB_recruitment_final (GPT-OSS pure-commitment correction 2026-07-12)",
+  "data_root": "output/oneshot_akata_main_dl",
+  "generators": {
+    "disposition_dissociation.csv": "analysis/layerB_recruitment_final/src/build_all.py",
+    "recruitment_geometry_depth.csv": "analysis/layerB_neural/rebuild/rebuild_round2.py geometry (fusion joint-null reshape)",
+    "within_model_bridge.csv": "analysis/layerB_neural/rebuild/rebuild_bridge_variants.py (scoped accepted table plus GPT-OSS sensitivity table)"
+  },
+  "models": [
+    "qwen_instruct",
+    "qwen",
+    "llama31_instruct",
+    "gptoss"
+  ],
+  "n_boot": 1000,
+  "primary_behavior_target": "dense: parsed generated P1 baseline action; GPT-OSS bridge: 525 literal pure commitments across 144 games",
+  "gptoss_sensitivity": "the former heterogeneous pure+mixed bridge and a 108-game complete-pure-block estimate are retained in within_model_bridge_gptoss_sensitivity.csv",
+  "primary_incentive_axis": "canonical-signed Delta1c at q=0.5",
+  "seed": 20260627,
+  "verification": {
+    "bridge": "GPT-OSS accepted pure-only raw=0.026124 [0.001487,0.053802], partial=0.005513 [-0.029164,0.036843]; former heterogeneous partial=0.071603 is sensitivity only",
+    "disposition": "displayed LDA range=0.968750-1.000000 (rounds to TeX 0.969-1.000); behavioral uptake means match 5/5",
+    "geometry": "game-block null: Qwen-I onset L56/depth 0.70, Qwen base L56/0.70, Llama L37/0.46; GPT-OSS primary uses 108 games with four pure commitments, final angle=91.100724, no significant layer and no onset"
+  }
+}

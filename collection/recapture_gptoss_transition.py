@@ -186,6 +186,16 @@ def run_game(*, model, tok, dev, ens_mask, jp_ids, top_k, router_layers, game_co
     return pd.DataFrame(rows), resid_store, router_store, prov
 
 
+GAME_FILES = ("_DONE", "results.parquet", "acts.npz", "router.npz", "genids.npz", "config.json")
+
+
+def _game_complete(d):
+    """A game counts as done only if every artifact exists AND is non-empty. `_DONE` existing is not
+    enough: a crash mid-flush can publish 0-byte files under a 0-byte _DONE, which --skip-existing
+    would then skip forever (ChHr, 2026-07-12)."""
+    return all((d / n).exists() and (d / n).stat().st_size > 0 for n in GAME_FILES)
+
+
 def persist(out_root, game_code, df, resid, router, prov, provenance):
     fin, tmp = out_root / game_code, out_root / "_tmp" / game_code
     if tmp.exists():
@@ -203,7 +213,12 @@ def persist(out_root, game_code, df, resid, router, prov, provenance):
     if fin.exists():
         shutil.rmtree(fin)
     fin.mkdir(parents=True, exist_ok=True)
+    # fsync each FILE's contents before publishing it. _fsync_dir alone only durably records the
+    # NAME: a hard-lock then leaves a 0-byte file whose _DONE makes --skip-existing skip it forever
+    # (this is exactly what happened to ChHr on 2026-07-12).
     for n in ("results.parquet", "acts.npz", "router.npz", "genids.npz", "config.json"):
+        with open(tmp / n, "rb") as fh:
+            os.fsync(fh.fileno())
         os.replace(tmp / n, fin / n)
     _fsync_dir(fin); (fin / "_DONE").write_text(_now()); _fsync_dir(fin)
     shutil.rmtree(tmp, ignore_errors=True)
@@ -254,7 +269,7 @@ def main():
 
     stats = []
     for i, g in enumerate(games, 1):
-        if (out_root / g / "_DONE").exists() and a.skip_existing:
+        if a.skip_existing and _game_complete(out_root / g):
             continue
         src_df = pd.read_parquet(SRC_ROOT / g / "results.parquet")
         src_acts = np.load(SRC_ROOT / g / "acts.npz") if (SRC_ROOT / g / "acts.npz").exists() else None

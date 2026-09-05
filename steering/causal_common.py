@@ -7,13 +7,13 @@ This is a pure library. No file I/O at import time. All forward-pass code lives 
 source of truth for:
 
   - the 16-cell factorial counterbalance grid (spec §0.2)
-  - action-space readouts (spec §0.1, CLAUDE.md #1)
+  - action-space readouts (spec §0.1, docs/METHODS.md HC-1)
   - target-action / best-response game-theoretic helpers
   - cluster bootstrap by game (spec §0.4)
   - structural invariant assertions (spec §0.5, §0.6, §0.2)
   - prompt SHA256 hashing
   - explicit tie-checked defect-action computation (spec §5.1)
-  - the probe-prefix constant ``PROBE_PREFIX = "\\nDecision: "`` (spec §0.8, CLAUDE.md #3)
+  - the probe-prefix constant ``PROBE_PREFIX = "\\nDecision: "`` (spec §0.8, docs/METHODS.md HC-3)
 
 Reuses, by identity, from the existing apparatus:
   - ``strategic_anatomy.prompting.build_prompt`` (prompt construction)
@@ -22,7 +22,7 @@ Reuses, by identity, from the existing apparatus:
   - ``analysis.block_b.probe_program.probe_world_model.defect_actions_from_vec``
     (kept reachable so callers can compare against the tie-tolerant variant)
 
-CLAUDE.md hard constraints respected:
+the hard constraints in docs/METHODS.md respected:
   #1 action space: ``readout_action_probs`` is the only conversion point.
   #2 canonical axis: ``canonical_pref`` requires the per-row canonical_action_p1
      and must never collapse positional labels across games.
@@ -150,7 +150,7 @@ def build_counterbalanced_prompt(
 
 
 # ---------------------------------------------------------------------------
-# Action-space readouts (spec §0.1, CLAUDE.md #1)
+# Action-space readouts (spec §0.1, docs/METHODS.md HC-1)
 # ---------------------------------------------------------------------------
 def readout_action_probs(
     final_probs: dict[str, float],
@@ -180,7 +180,7 @@ def readout_action_probs(
 def canonical_pref(pref0: float, canonical_action_p1: int) -> float:
     """Return P(canonical action) given pref0 and the game's canonical_action_p1.
 
-    Spec §0.1 + CLAUDE.md #2 — never aggregate raw pref0 across games.
+    Spec §0.1 + docs/METHODS.md HC-2 — never aggregate raw pref0 across games.
     """
     ca = int(canonical_action_p1)
     if ca == 0:
@@ -445,7 +445,7 @@ def load_game_universe(path: str | Path) -> pd.DataFrame:
     if not p.exists():
         raise FileNotFoundError(
             f"Game universe manifest missing at {p}. "
-            f"Run analysis/block_b/build_causal_v2_manifests.py first."
+            f"The released manifest ships at data/manifests/game_universe_oneshot.csv."
         )
     return pd.read_csv(p)
 

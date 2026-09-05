@@ -8,8 +8,13 @@ All pure-CPU (no model / no GPU).
 import pandas as pd
 import pytest
 
-from steering.steer_core import _signed_cos
-from steering.causal_common import assert_hook_integrity
+# The assertions here are pure CPU arithmetic, but `steering.steer_core` imports torch at
+# module scope (it also defines the real forward hooks). Skip the module rather than fail
+# collection in a Tier-1/Tier-2 environment, which installs `[analysis,dev]` and no torch.
+pytest.importorskip("torch", reason="steering.steer_core imports torch; install the [gpu] extra")
+
+from steering.steer_core import _signed_cos  # noqa: E402
+from steering.causal_common import assert_hook_integrity  # noqa: E402
 
 
 def test_signed_cos_multiplies_by_dose_sign():

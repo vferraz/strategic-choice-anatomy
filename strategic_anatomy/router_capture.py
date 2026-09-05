@@ -25,7 +25,8 @@ that convention, which is robust to the exact router-module return signature
 (mxfp4 kernel path vs. native path). The chosen ``capture_mode`` is stamped into the
 npz.
 
-CLAUDE.md #7: run with ``.venv_gptoss``. The generic ``.venv`` lacks the ``kernels``
+docs/METHODS.md HC-7: run under the gpt-oss environment (docs/ENVIRONMENTS.md). A generic
+analysis env lacks the ``kernels``
 package and MXFP4-fallbacks, which changes the router code path; this script
 hard-errors if ``kernels`` is missing (override with ``--allow-no-kernels``).
 """
@@ -62,8 +63,16 @@ LOG = logging.getLogger("run_router_capture")
 ROUTER_SCHEMA_VERSION = "router_v1"
 EXPECTED_PROMPT_TEMPLATE_VERSION = "design_v2_v1"
 DEFAULT_MODEL_NAME = "openai/gpt-oss-120b"
-DEFAULT_DATA_ROOT = Path("output/design_v2_main")
-DEFAULT_GAMES_CSV = Path("scripts/experiment1/phase2_game_list.csv")
+# NOTE (release): this module's standalone CLI is DESIGN_V2-shaped — 10 rounds, three
+# seeds, the 19-cell baseline+cue grid, and EXPECTED_PROMPT_TEMPLATE_VERSION above. Its
+# original defaults named `output/design_v2_main` and `scripts/experiment1/phase2_game_list.csv`,
+# neither of which is part of this release (plan §1/§5 exclude the DESIGN_V2 round-based
+# substrate). Rather than silently repoint them at the Akata substrate — a different
+# schema, game universe and cell grid — both are now required flags. The *functions* in
+# this module (capture_moe_router, model_topk, _topk_idx_weights, _kernels_available) are
+# what the shipped Akata collectors import, and they are unaffected.
+DEFAULT_DATA_ROOT: Path | None = None
+DEFAULT_GAMES_CSV: Path | None = None
 DEFAULT_SEEDS = (100, 200, 300)
 DEFAULT_LAYERS = (1, 6, 9, 22, 24, 35)
 DEFAULT_SEQ_LAYERS = (24, 35)
@@ -139,8 +148,9 @@ def model_topk(model, override: int | None) -> int:
 def capture_moe_router(model, layers: Iterable[int]):
     """Capture full-sequence router **gate logits** ``(T, E)`` per target layer.
 
-    Re-implements the hook structure of ``_legacy/src/run_gptoss_moe_router_diagnostic``
-    (read-only history per CLAUDE.md #9 — pattern-matched, not imported), with two
+    Re-implements the hook structure of an earlier private-repo router diagnostic
+    (pattern-matched from its behaviour, not imported; that file is not part of this
+    release), with two
     differences: it captures the FULL sequence tensor (not just the last token) and
     stores only the gate logits (top-k / weights are derived downstream under the
     documented topk-then-softmax convention).
@@ -395,10 +405,14 @@ def self_check(model, match_dir: Path, layers, input_device) -> None:
 
 def _build_argparser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--data-root", default=str(DEFAULT_DATA_ROOT))
+    p.add_argument("--data-root", default=None,
+                   help="root holding {model}/{match}/acts.npz. REQUIRED: the historical default "
+                        "named the DESIGN_V2 substrate, which is not part of this release.")
     p.add_argument("--model_kind", default="gptoss")
     p.add_argument("--model_name", default=DEFAULT_MODEL_NAME)
-    p.add_argument("--games-csv", default=str(DEFAULT_GAMES_CSV))
+    p.add_argument("--games-csv", default=None,
+                   help="CSV of game codes to process. REQUIRED unless --games is given; the "
+                        "historical default named a DESIGN_V2 game list that is not released.")
     p.add_argument("--games", nargs="*", default=None, help="explicit game codes (override CSV)")
     p.add_argument("--seeds", nargs="*", type=int, default=list(DEFAULT_SEEDS))
     p.add_argument("--cells", nargs="*", default=list(DEFAULT_CELLS))
@@ -430,6 +444,16 @@ def main(argv: list[str] | None = None) -> int:
         else:
             LOG.error(msg)
             return 2
+
+    if not args.data_root:
+        LOG.error("--data-root is required. This CLI replays a DESIGN_V2-shaped capture "
+                  "(10 rounds, seeds, 19-cell grid); that substrate is not part of this "
+                  "release, so there is no safe default. Pass the root explicitly.")
+        return 2
+    if not args.games and not args.games_csv:
+        LOG.error("pass --games-csv or --games. The historical default named a DESIGN_V2 "
+                  "game list that is not released.")
+        return 2
 
     games = args.games if args.games else load_games_csv(Path(args.games_csv))
     match_dirs = list(iter_target_match_dirs(Path(args.data_root), args.model_kind, games, args.seeds, args.cells))

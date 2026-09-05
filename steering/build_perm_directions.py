@@ -216,4 +216,12 @@ def main():
 
 
 if __name__ == "__main__":
+    # phase-4: see collection/preflight_dense.py — the parser accepts no arguments, so a bare
+    # run is unchanged; it exists so --help prints help instead of starting the job.
+    import argparse
+    argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="Takes no options. CPU-only; writes $SCA_DATA_ROOT/steering/directions/akata_perm/.",
+    ).parse_args()
     main()

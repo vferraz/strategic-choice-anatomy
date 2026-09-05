@@ -1,14 +1,14 @@
-"""SMALL-DOSE Akata dense steering — the linear-regime arm (PI-approved GO 2026-07-02).
+"""SMALL-DOSE Akata dense steering — the linear-regime arm (locked 2026-07-02).
 
 The saturated-grid production run (run_akata_steer.py, |dose| ∈ {0.5,1,2}) proved the apparatus
 (h0: dose-0 bit-identity, decisions flip) but its h1/h2 doses live ENTIRELY in a letter-hijack
 saturated regime: at every collected dose the injection slams the next token to Option J (+dose)
 or Option P (−dose) with 100% letter coherence, which the 4-cell counterbalance cancels on the
-strategic axes — every slope statistic reads ≈0 (docs/PRELIMINARY_RESULTS.md, 2026-07-02 REVISION).
+strategic axes — every slope statistic reads ≈0 (docs/METHODS.md, 2026-07-02 REVISION).
 This arm asks the OPEN question — does pushing d_inc / d_choice_perp move the decision on the
 CANONICAL axis — at doses inside the regime where h0 was validated (|dose| ≤ 0.25).
 
-LOCKED SPEC (PI GO 2026-07-02; main_perp variant added on second PI GO same day):
+LOCKED SPEC (2026-07-02; the main_perp variant was added the same day):
   doses    [-0.25, -0.1, -0.05, 0.0, 0.05, 0.1, 0.25]
   modes    h1_dinc (d_inc) + h2_choice (d_choice_perp)
   layers   65, 79

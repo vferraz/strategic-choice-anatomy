@@ -1,0 +1,2 @@
+agent,axis,lam_soft,alpha_soft,ci_lo,ci_hi,n_games,n_rows,note
+griffiths,cardinal (separate from rank lambda bar),0.10291447059674616,0.44741400505847645,0.09048912188747683,0.11558204001986544,126,1664,Griffiths cardinal-payoff robustness; do NOT compare to ordinal rank lambda

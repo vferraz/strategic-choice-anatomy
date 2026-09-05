@@ -4,11 +4,25 @@
 data_heavy/
 
 # --------------------------------------------------------------------------
+# Third-party raw human data. NEVER tracked: it belongs to the source studies
+# and is not ours to redistribute. Developers typically symlink the two
+# subdirectories at their own copies, which would otherwise put absolute local
+# paths into public history. Only the placement instructions are tracked.
+# --------------------------------------------------------------------------
+data/human_refs/raw/*
+!data/human_refs/raw/README.md
+
+# --------------------------------------------------------------------------
 # Figures: local rebuilds are ignored; the committed reference renders are not.
 # --------------------------------------------------------------------------
 **/figures/*.pdf
 **/figures/*.png
 !data/results/figures_reference/**
+
+# Per-panel intermediates a figure script drops beside its output. Regenerated on
+# every rebuild, and panelD_beeswarm.csv (10.5 MB) is a byte-identical duplicate of
+# data/results/layer_a/s_shap_beeswarm.csv, which IS tracked.
+**/figures/_*panel_data/
 
 # --------------------------------------------------------------------------
 # Binary data artifacts. Everything tracked lives under data/.

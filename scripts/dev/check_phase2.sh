@@ -11,7 +11,11 @@
 #
 # Usage: scripts/dev/check_phase2.sh      (from anywhere inside a clone)
 set -u
-cd "$(git rev-parse --show-toplevel)"
+# Repo root without requiring git: a Zenodo software archive or a plain tarball has no
+# .git, and every path below is repo-relative. Prefer git when it is available.
+ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+[ -n "${ROOT_DIR:-}" ] || ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)"
+cd "$ROOT_DIR"
 
 PY="${PY:-uv run python}"
 fail=0
@@ -47,7 +51,10 @@ check_empty() {  # check_empty <label> <grep-output>
 
 # This script names the very patterns it forbids, so it filters itself out of every grep.
 EXCL="--exclude-dir=.venv --exclude-dir=.git --exclude-dir=__pycache__"
-drop_self() { grep -v 'scripts/dev/check_phase2.sh' || true; }
+# Both dev gates necessarily spell out the patterns they forbid, so both are excluded from
+# every grep here. check_hygiene.sh is the authority on machine paths and secrets and does the
+# same for itself; this gate keeps a lighter copy so it stays useful standalone.
+drop_self() { grep -v -e 'scripts/dev/check_phase2.sh' -e 'scripts/dev/check_hygiene.sh' || true; }
 
 check_empty "no PYTHONPATH convention" \
   "$(grep -rn $EXCL 'PYTHONPATH' scripts/ collection/ steering/ 2>/dev/null | drop_self)"
@@ -58,12 +65,29 @@ check_empty "no machine-specific paths" \
 
 # Scope per PHASE2 gate: the released heavy-data roots. `output/oneshot_main` (the
 # superseded A/B substrate) is deliberately out of scope — it survives only as the
-# --substrate-root default in steering/extract_directions.py, flagged for PI sign-off
+# --substrate-root default in steering/extract_directions.py, flagged for sign-off
 # because repointing it would change a CLI default.
+# Widened after Tier 2 (report §2.2): the original pattern only forbade `oneshot_akata*`
+# literals, so `rebuild_lib.py`'s surviving `datasets/processed/game_features.csv` -- a
+# PRIVATE-layout path -- passed this gate and only failed at table-regeneration time.
+#
+# The private-layout alternatives are matched only when QUOTED, i.e. in path construction
+# (`os.path.join(ROOT, "datasets", "processed")`, `ROOT / "datasets" / "processed"`,
+# `"analysis/layerB_final/..."`). Bare mentions in prose are NOT matched, because playbook
+# rule 5 requires every extracted function to name its private origin file in a header
+# comment -- flagging those would make the gate fight the convention it exists to serve.
+# Comment-only lines are dropped for the same reason. `data/`, the RELEASED layout, is
+# deliberately absent from the pattern.
+PRIVATE_LAYOUT='["'"'"']datasets["'"'"']|["'"'"'][^"'"'"']*(datasets/processed|analysis/_shared/datasets|analysis/layer[ABC]|analysis/block_[abc])'
 check_empty "no released heavy-data literals outside config.py" \
   "$(grep -rln $EXCL 'oneshot_akata_main_dl\|oneshot_akata_gptoss_recap\|output/oneshot_akata' \
       --include='*.py' . 2>/dev/null \
       | grep -v 'strategic_anatomy/config.py' | grep -v '^./docs/' || true)"
+
+check_empty "no private-layout path literals" \
+  "$(grep -rnE $EXCL "$PRIVATE_LAYOUT" --include='*.py' . 2>/dev/null \
+      | grep -v 'strategic_anatomy/config.py' | grep -v '^./docs/' \
+      | grep -vE '^[^:]*:[0-9]+:[[:space:]]*#' || true)"
 
 check_empty "no legacy import forms" \
   "$(grep -rnE $EXCL 'sys\.path|from src\.|import src\.|from analysis\.block_[abc]' \

@@ -1,0 +1,5 @@
+model,final_angle,onset_depth_uniform,onset_depth_empirical,sig_late_uniform,sig_late_empirical,minp_uniform,minp_empirical
+Qwen2.5-Instruct,31.0,0.7,0.68,24/33,27/33,0.005,0.005
+Qwen2.5 (base),26.7,0.7,0.68,22/33,25/33,0.005,0.005
+Llama-3.1-Instruct,30.0,0.46,0.44,33/33,33/33,0.005,0.005
+GPT-OSS-120B,39.0,,0.03,0/15,0/15,0.015,0.005

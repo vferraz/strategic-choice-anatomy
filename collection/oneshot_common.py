@@ -13,7 +13,7 @@ It also defines the pure incentive-gap math (``u_mats``/``delta1``/``delta2``/
 (§1, §6). The belief ``q`` is supplied by the caller (player-specific: a player's
 q-hat is its opponent's act0 rate).
 
-CLAUDE.md hard constraints respected:
+the hard constraints in docs/METHODS.md respected:
   #1 action space — readouts only via ``readout_action_probs`` (re-exported).
   #2 canonical axis — ``canonical_pref`` / ``canonical_sign`` require the per-row
      canonical action and never collapse positional labels across games.

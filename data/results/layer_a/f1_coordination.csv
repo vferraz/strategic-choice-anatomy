@@ -1,0 +1,13 @@
+agent,display,structure,structure_label,method,aggregation_unit,n_games,n_game_codes,n_source_rows,n_cells,co1_count,co2_count,pdom_share,other_share,coord_share,miscoord_share
+qwen,Qwen2.5-72B,conflict,Distributional conflict,matched_cells,matched_counterbalance_cell,9,9,36,36.0,4,5,,,0.2222222222222222,0.7777777777777778
+qwen,Qwen2.5-72B,rankable,Pareto-rankable,matched_cells,matched_counterbalance_cell,9,9,36,36.0,5,4,0.16666666666666666,0.0,0.16666666666666666,0.8333333333333334
+qwen_instruct,Qwen2.5-72B-Instruct,conflict,Distributional conflict,matched_cells,matched_counterbalance_cell,9,9,36,36.0,4,5,,,0.2222222222222222,0.7777777777777778
+qwen_instruct,Qwen2.5-72B-Instruct,rankable,Pareto-rankable,matched_cells,matched_counterbalance_cell,9,9,36,36.0,5,4,0.2222222222222222,0.0,0.2222222222222222,0.7777777777777778
+llama31_instruct,Llama-3.1-70B-Instruct,conflict,Distributional conflict,matched_cells,matched_counterbalance_cell,9,9,36,36.0,4,5,,,0.3333333333333333,0.6666666666666666
+llama31_instruct,Llama-3.1-70B-Instruct,rankable,Pareto-rankable,matched_cells,matched_counterbalance_cell,9,9,36,36.0,5,4,0.2777777777777778,0.0,0.2777777777777778,0.7222222222222222
+gptoss,GPT-OSS-120B,conflict,Distributional conflict,matched_cells,matched_counterbalance_cell,9,9,36,36.0,4,5,,,0.4444444444444444,0.5555555555555556
+gptoss,GPT-OSS-120B,rankable,Pareto-rankable,matched_cells,matched_counterbalance_cell,9,9,36,36.0,5,4,0.4166666666666667,0.1388888888888889,0.5555555555555556,0.4444444444444444
+nagel,Moore et al. (human),conflict,Distributional conflict,aggregate_independent,canonical_game_code,9,9,9,,4,5,,,0.4739898034364641,0.526010196563536
+nagel,Moore et al. (human),rankable,Pareto-rankable,aggregate_independent,canonical_game_code,9,9,9,,5,4,0.3737291798678254,0.1522460556456032,0.5259752355134286,0.4740247644865713
+griffiths,Zhu et al. (human),rankable,Pareto-rankable,original_game_independent,griffiths_game_id,149,9,298,,84,65,0.5700063309661567,0.06187525995608703,0.6318815909222438,0.36811840907775617
+griffiths,Zhu et al. (human),conflict,Distributional conflict,original_game_independent,griffiths_game_id,154,9,308,,66,88,,,0.509727177566477,0.49027282243352305

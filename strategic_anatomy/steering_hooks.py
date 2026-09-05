@@ -46,6 +46,7 @@ from strategic_anatomy.runtime import (
 from strategic_anatomy.steering_utils import (
     DEFAULT_METADATA_FILE,
     DEFAULT_VECTOR_FILE,
+    resolve_vector_files,
     make_random_like,
     stable_seed,
     transformer_layers,
@@ -388,8 +389,11 @@ def main():
     p.add_argument("--payoff_multiplier", type=int, default=2)
     p.add_argument("--probe_prefix", default="\nDecision: ")
     p.add_argument("--output_dir", default="validation_logs")
-    p.add_argument("--vector_file", default=DEFAULT_VECTOR_FILE)
-    p.add_argument("--metadata_file", default=DEFAULT_METADATA_FILE)
+    p.add_argument("--vector_file", default=DEFAULT_VECTOR_FILE,
+                   help="steering-vector .npz (REQUIRED; released sets live under "
+                        "$SCA_DATA_ROOT/steering/directions/ — see docs/DATA.md)")
+    p.add_argument("--metadata_file", default=DEFAULT_METADATA_FILE,
+                   help="steering-vector metadata CSV (REQUIRED; see --vector_file)")
     p.add_argument("--use_ln_f_all", action="store_true", default=True)
     p.add_argument("--dry_run", action="store_true")
 
@@ -408,6 +412,8 @@ def main():
     p.add_argument("--generate_temperature", type=float, default=1.0)
     p.add_argument("--no_shuffle_valid_moves", action="store_true", default=False)
     args = p.parse_args()
+
+    resolve_vector_files(args.vector_file, args.metadata_file)
 
     if not args.exp_tag:
         args.exp_tag = f"steering_mechanism_diagnostic_{dt.datetime.now().strftime('%Y%m%d_%H%M%S')}"

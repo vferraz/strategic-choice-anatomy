@@ -1,0 +1,2 @@
+contrast,partial_delta,ci_lo,ci_hi,raw_delta,n_games,n_boot,seed,note
+qwen_instruct_minus_qwen,0.05879465192626998,0.017163855486553737,0.10088274762896147,0.12464525977666158,144,1000,20260627,paired game-clustered bootstrap on partial bridge slopes; points file HEAD

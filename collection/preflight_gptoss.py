@@ -1,5 +1,6 @@
 """Akata one-shot GPT-OSS preflight — harmony final-channel COMMIT decode (J/P) + commit-token
-residual + MoE router. Per spec docs/AKATA_ONESHOT_RECOLLECTION.md §7. RUN UNDER .venv_gptoss.
+residual + MoE router. Per the collection spec in docs/METHODS.md ("Preflight gate").
+MUST run under the gpt-oss environment (docs/ENVIRONMENTS.md).
 
 Loads via validated `_setup_model`; reuses validated `capture_moe_router` / `_topk_idx_weights` /
 `_generate` / `HARMONY_FINAL_MARKER`. Only the prompt (Akata) + the letter (J/P) are new.
@@ -84,7 +85,7 @@ def refeed_jp(model, tok, dev, ens_mask, full_ids, router_layers, residual_layer
 
 def main():
     if not _kernels_available():
-        raise SystemExit("kernels package missing — run under .venv_gptoss (CLAUDE.md #7).")
+        raise SystemExit("kernels package missing — run under the gpt-oss env (docs/ENVIRONMENTS.md; docs/METHODS.md HC-7).")
     model_cfg = CONFIG["models"]["gptoss"]
     residual_layers = list(model_cfg["capture_layers"])            # 0..35
     router_layers = list(ROUTER_LAYERS_DEFAULT)
@@ -147,4 +148,13 @@ def main():
 
 
 if __name__ == "__main__":
+    # phase-4: see preflight_dense.py — the parser accepts no arguments, so a bare run is
+    # unchanged; it exists so --help prints help instead of loading gpt-oss-120b.
+    import argparse
+    argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="Takes no options. Loads gpt-oss-120b and MUST run under the gptoss env "
+               "(the generic venv lacks `kernels` and MXFP4-fallbacks) — see docs/ENVIRONMENTS.md.",
+    ).parse_args()
     main()

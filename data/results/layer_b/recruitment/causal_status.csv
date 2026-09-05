@@ -1,0 +1,21 @@
+mode,model,status,source,n_rows,effect_column,effect_mean,ci_lo,ci_hi,note
+h0,qwen_instruct,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h0,qwen,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h0,llama31_instruct,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h0,gptoss,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h1_patch,qwen_instruct,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h1_patch,qwen,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h1_patch,llama31_instruct,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h1_patch,gptoss,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h1_dinc,qwen_instruct,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h1_dinc,qwen,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h1_dinc,llama31_instruct,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h1_dinc,gptoss,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h2_choice,qwen_instruct,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h2_choice,qwen,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h2_choice,llama31_instruct,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h2_choice,gptoss,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h3_oppinc,qwen_instruct,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h3_oppinc,qwen,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h3_oppinc,llama31_instruct,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.
+h3_oppinc,gptoss,source_missing,<repo>/analysis/block_b/tables/causal_oneshot/runs/a5full_20260620_200509,0,,,,,A5 run folder not present in this checkout; causal panel is pending.

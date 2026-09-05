@@ -1,0 +1,2 @@
+agent,readout,belief,lambda,alpha,lambda_boot_game_lo,lambda_boot_game_hi,lambda_session_clust_lo,lambda_session_clust_hi,n_obs,n_sessions,n_unique_participants,n_games
+nagel_human,binary_choice,q05,0.907110429965762,0.4500176004520556,0.8246732762354463,0.9870359833609815,0.8304382414837248,0.9837826184473715,64944,451,450,144

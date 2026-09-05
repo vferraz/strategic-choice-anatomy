@@ -1,0 +1,7 @@
+scope,commit_type,n,n_games,n_new_tokens_median,n_new_tokens_mean,n_new_tokens_q25,n_new_tokens_q75,n_new_tokens_max,gen_s_median,n_new_tokens_min
+all_cells,mixed,190,80,951.0,903.6421052631579,549.75,1137.0,1866.0,41.349999999999994,
+all_cells,none,3,3,367.0,372.6666666666667,361.5,381.0,395.0,15.2,
+all_cells,pure,4415,144,221.0,316.6024915062288,178.5,355.0,2258.0,9.6,
+p1_baseline,mixed,51,36,1110.0,1154.9019607843138,985.5,1280.5,1866.0,49.0,
+p1_baseline,pure,525,144,329.0,439.4971428571429,270.0,482.0,2258.0,14.2,
+p1_baseline_per_game_median,all,576,144,347.5,472.4201388888889,291.5,638.875,1232.5,,180.0

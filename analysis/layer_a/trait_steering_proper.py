@@ -29,10 +29,10 @@ into (a) a preferred action a*(game) and (b) a SIGNED payoff dose d(game),
 where d>0 means canonical act0 is the trait-preferred action and |d| is how
 strongly the payoffs favor it.  Derived preferred actions are asserted to match
 the repo's precomputed predictors (game_features.csv) before anything is
-aggregated, satisfying CLAUDE.md hard-constraint #2 (align per game to the
+aggregated, satisfying docs/METHODS.md HC-2 (align per game to the
 trait-predicted action; never pool raw move==0 across games).
 
-Outputs (analysis/_shared/datasets/, analysis/block_a/figures/):
+Outputs (data/human_refs/, analysis/layer_a/figures/):
   trait_steering_proper_per_game.csv   - one row per (model, round, trait, game)
   trait_steering_proper_summary.csv    - one row per (model, round, trait)
   fig_trait_steering_magnitude_direction.{png,pdf}
@@ -53,15 +53,19 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
-from strategic_anatomy.config import game_features_csv, human_refs_root, repo_root
+from strategic_anatomy.config import data_root, game_features_csv, human_refs_root, repo_root
 
 ROOT = repo_root()
-# NOTE (phase-2 port): MASTER and RAW_ROOT name the superseded DESIGN_V2 substrate,
-# which is excluded from the release (plan §1/§5). They are read only by functions
-# outside the released trait-target path; kept verbatim and flagged rather than
-# repointed, since no released root corresponds to them.
-MASTER = ROOT / "analysis/notebooks/outputs/01_gameplay/master_behavior_long.parquet"
-RAW_ROOT = ROOT / "output/design_v2_main"
+# NOTE (phase-2 port, guarded in phase-4): MASTER and RAW_ROOT name the superseded
+# DESIGN_V2 substrate, which is excluded from the release (plan §1/§5) and absent from
+# the deposit, so both resolve under $SCA_DATA_ROOT to paths that do not exist. No
+# released root corresponds to them, so they are kept rather than repointed — but main()
+# now refuses to run without them (see the guard there). They are read only by
+# load_behavior(); trait_targets(), the function the release actually imports (from
+# collection/layerc/generate_layerc.py and analysis/layer_c/plot_layerc_candidates.py),
+# touches neither.
+MASTER = data_root() / "analysis_outputs" / "01_gameplay/master_behavior_long.parquet"
+RAW_ROOT = data_root() / "design_v2_main"
 UNIFIED = human_refs_root() / "unified_pairs.parquet"
 FEATURES = game_features_csv()
 DATA_DIR = human_refs_root()
@@ -516,6 +520,21 @@ def fig_dose_response(pg: pd.DataFrame, summary: pd.DataFrame) -> None:
 
 # --------------------------------------------------------------------------- #
 def main() -> None:
+    # NOTE (phase-4): load_behavior() reads the superseded DESIGN_V2 substrate, which is
+    # not part of this release or the deposit — and main() writes over the *committed*
+    # data/human_refs/trait_steering_proper_{per_game,summary}.csv. Without this guard a
+    # bare run would silently clobber shipped release tables with empty or partial output.
+    # The released one-shot equivalent is analysis/layer_a/build_trait_steering_oneshot.py.
+    missing = [p for p in (MASTER, RAW_ROOT) if not p.exists()]
+    if missing:
+        raise SystemExit(
+            "This script rebuilds the DESIGN_V2 trait-steering tables, which are not part "
+            "of this release or the data deposit. Missing: "
+            + ", ".join(str(p) for p in missing)
+            + "\nFor the released one-shot substrate use:\n"
+            "    uv run python analysis/layer_a/build_trait_steering_oneshot.py\n"
+            "The reusable part of this module is trait_targets(), which needs none of the above."
+        )
     beh = load_behavior()
     targets = trait_targets()
     pg = build_per_game(beh, targets)
@@ -536,8 +555,8 @@ def main() -> None:
     show = show.sort_values(["model", "trait"])
     with pd.option_context("display.width", 200, "display.max_rows", 200):
         print(show.round(3).to_string(index=False))
-    print("\nwrote analysis/_shared/datasets/trait_steering_proper_{per_game,summary}.csv")
-    print("wrote analysis/block_a/figures/fig_trait_steering_{magnitude_direction,dose_response}.{png,pdf}")
+    print("\nwrote data/human_refs/trait_steering_proper_{per_game,summary}.csv")
+    print("wrote analysis/layer_a/figures/fig_trait_steering_{magnitude_direction,dose_response}.{png,pdf}")
 
 
 if __name__ == "__main__":

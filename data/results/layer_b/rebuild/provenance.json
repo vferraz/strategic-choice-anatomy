@@ -1,0 +1,15 @@
+{
+  "analysis": "analysis/layerB_neural/rebuild (evidence-freeze regeneration)",
+  "data_root": "$SCA_DATA_ROOT/substrate",
+  "models": [
+    "qwen",
+    "qwen_instruct",
+    "llama31_instruct",
+    "gptoss"
+  ],
+  "n_boot": 1000,
+  "primary_behavior_target": "realized P1 baseline action aligned to canonical_action_p1",
+  "primary_incentive_axis": "canonical-signed Delta1c at q=0.5",
+  "seed": 20260627,
+  "note": "parameters match the original run's provenance.json (recovered 2026-07-09); candidate-layer reconstruction per PI-approved spec"
+}

@@ -1,0 +1,16 @@
+scope,n_games,n_rows,n_router_files,substrate,decoder,feeding,capture,cb,router_layers,max_new_tokens,n_captured,capture_rate
+root,144,4608,144.0,akata_oneshot,generate_parse_JP_per_cell_pure_mixed_none,harmony_chat_template_pure_greedy,all_layers_incl_l0,akata_4cell,"1,3,6,9,12,15,18,21,22,24,27,30,33,35",4096,,
+player1:baseline:mixed,36,51,,,,,,,,,51.0,1.0
+player1:baseline:pure,144,525,,,,,,,,,525.0,1.0
+player1:cue_inequity_aversion:mixed,34,54,,,,,,,,,54.0,1.0
+player1:cue_inequity_aversion:pure,144,522,,,,,,,,,522.0,1.0
+player1:cue_length_match_null:mixed,2,3,,,,,,,,,3.0,1.0
+player1:cue_length_match_null:pure,144,573,,,,,,,,,573.0,1.0
+player1:cue_loss_aversion:pure,144,576,,,,,,,,,576.0,1.0
+player1:cue_maximin:pure,144,576,,,,,,,,,576.0,1.0
+player1:cue_risk_aversion:pure,144,576,,,,,,,,,576.0,1.0
+player1:cue_selfish_maximizer:mixed,24,28,,,,,,,,,28.0,1.0
+player1:cue_selfish_maximizer:none,3,3,,,,,,,,,0.0,0.0
+player1:cue_selfish_maximizer:pure,144,545,,,,,,,,,545.0,1.0
+player2:baseline:mixed,37,54,,,,,,,,,54.0,1.0
+player2:baseline:pure,144,522,,,,,,,,,522.0,1.0

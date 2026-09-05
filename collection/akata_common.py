@@ -1,6 +1,6 @@
 """One-shot **Akata sentence-form** prompt + 4-cell counterbalance + **J/P** decode.
 
-LOCKED SPEC: docs/AKATA_ONESHOT_RECOLLECTION.md (PI-approved 2026-06-24). This is the CORRECTED
+LOCKED SPEC: docs/METHODS.md (locked 2026-06-24). This is the CORRECTED
 substrate prompt — it replaces the invalid A/B-matrix `oneshot_common.build_oneshot_prompt`.
 ADDITIVE: this module does not touch oneshot_common.py / causal_v2_common.py.
 

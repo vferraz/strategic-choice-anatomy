@@ -1,0 +1,12 @@
+{
+  "analysis": "analysis/layerB_neural router bottleneck (evidence-freeze regeneration 2026-07-10)",
+  "generator": "analysis/layerB_neural/router_oneshot_audit.py -> analysis/layerB_neural/router_bottleneck_analysis.py",
+  "data_root": "output/oneshot_akata_main_dl/gptoss",
+  "decision_label": "realized_action for descriptive realized-choice targets; commit_type=none excluded by captured-row gate",
+  "primary_target": "canonical-signed incentive sign at q=0.5",
+  "cv": "GroupKFold(5), out-of-fold predictions",
+  "n_boot": 1000,
+  "seed": 20260627,
+  "verified": "headline points/layers reproduce the frozen targets: gate 0.891@L18, top-k weights 0.640@L18, top-k set 0.609@L18, best residual 0.915@L21",
+  "ci_note": "L18 gate CI regenerated as [0.852, 0.929] versus TeX [0.851, 0.925]; point and all listed bottleneck point targets match"
+}

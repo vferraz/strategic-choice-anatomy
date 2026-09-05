@@ -1,0 +1,17 @@
+model,layer,family,concept,metric,value,ci_lo,ci_hi,base_rate,n_obs,n_games
+qwen_instruct,80,decision/readout,realised canonical action,auc,0.8678683907697899,0.8216903300141873,0.9061830342843236,0.7256944444444444,576,144
+qwen_instruct,80,d_inc,sign(Delta1c q=0.5),auc,0.8664094650205761,0.8226453779729209,0.9056615896703442,0.625,576,144
+qwen_instruct,80,stimulus control,rank of P1 payoff at cell 00,macro_ovr_auc,0.8783320674189815,0.8530388828993491,0.9002254983313256,,576,144
+qwen_instruct,80,cue axes,5-way disposition cue shifts,lda_5way_accuracy,1.0,1.0,1.0,0.2,2880,144
+qwen,80,decision/readout,realised canonical action,auc,0.8473346604733468,0.8073270144531669,0.885469748160561,0.7135416666666666,576,144
+qwen,80,d_inc,sign(Delta1c q=0.5),auc,0.8700231481481482,0.8287515673716432,0.9064976493029921,0.625,576,144
+qwen,80,stimulus control,rank of P1 payoff at cell 00,macro_ovr_auc,0.8381528501157408,0.8067550198529662,0.86694928942438,,576,144
+qwen,80,cue axes,5-way disposition cue shifts,lda_5way_accuracy,1.0,1.0,1.0,0.2,2880,144
+llama31_instruct,80,decision/readout,realised canonical action,auc,0.8007042253521126,0.7531475091138328,0.8434757283155372,0.7395833333333334,576,144
+llama31_instruct,80,d_inc,sign(Delta1c q=0.5),auc,0.7728909465020576,0.7246564412531833,0.8182312523349108,0.625,576,144
+llama31_instruct,80,stimulus control,rank of P1 payoff at cell 00,macro_ovr_auc,0.8587058738425926,0.8284254124315458,0.8879017611704612,,576,144
+llama31_instruct,80,cue axes,5-way disposition cue shifts,lda_5way_accuracy,1.0,1.0,1.0,0.2,2880,144
+gptoss,36,decision/readout,realised canonical action,auc,0.80999755859375,0.7626679402313086,0.8550544231484299,0.8888888888888888,576,144
+gptoss,36,d_inc,sign(Delta1c q=0.5),auc,0.8885030864197532,0.8478295041741227,0.9274759217923281,0.625,576,144
+gptoss,36,stimulus control,rank of P1 payoff at cell 00,macro_ovr_auc,0.6355523003472222,0.5993356519435145,0.67102235825697,,576,144
+gptoss,36,cue axes,5-way disposition cue shifts,lda_5way_accuracy,0.9885297184567258,0.9843478260869565,0.9926981919332406,0.2,2877,144

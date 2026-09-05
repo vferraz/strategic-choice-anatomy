@@ -1213,9 +1213,13 @@ def parse_args():
                    help="Payoff multiplier applied to base game vector (default: 2)")
 
     # Trait system — each player gets their own trait
-    p.add_argument("--traits_file",
-                    default=str(pathlib.Path(__file__).resolve().parent / "traits.json"),
-                    help="Path to traits JSON")
+    # NOTE (phase-4): this defaulted to `<package>/traits.json`, a file that has not existed
+    # for some time — any run relying on the default crashed inside load_traits(). It is now
+    # required. Repointing at the packaged traits_oneshot.json would turn that crash into a
+    # successful run with a DIFFERENT trait set, which is a behaviour change, so it is not done.
+    p.add_argument("--traits_file", default="",
+                   help="Path to traits JSON (REQUIRED; the packaged set is "
+                        "strategic_anatomy/traits_oneshot.json)")
     p.add_argument("--trait_p1", default="none", help="Trait ID for player 1, or 'none'")
     p.add_argument("--trait_p2", default="none", help="Trait ID for player 2, or 'none'")
     return p.parse_args()
@@ -1232,6 +1236,12 @@ def main():
     torch.manual_seed(args.seed); torch.cuda.manual_seed_all(args.seed)
 
     # --- load traits ---
+    if not args.traits_file:
+        sys.exit(
+            "--traits_file required — there is no default. The historical default named a "
+            "`traits.json` that no longer exists, so a bare run crashed inside load_traits(). "
+            "The packaged trait set is strategic_anatomy/traits_oneshot.json."
+        )
     traits = load_traits(args.traits_file)
     for tid in [args.trait_p1, args.trait_p2]:
         if tid not in traits:

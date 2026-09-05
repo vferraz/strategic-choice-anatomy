@@ -1,0 +1,88 @@
+cff-version: 1.2.0
+title: "strategic-choice-anatomy: code and data for The internal anatomy of strategic choice in large language models"
+message: "If you use this software or the released data, please cite both the software and the paper."
+type: software
+license: MIT
+repository-code: "https://github.com/vferraz/strategic-choice-anatomy"
+abstract: >-
+  Code, analysis and released data for a study of strategic behaviour and internal
+  representations in large language models. Four models play all 144 Robinson-Goforth/Bruns
+  canonical 2x2 games as one-shot natural-language decisions; the repository holds the
+  collection runtime, the causal steering arm, and the layered behavioural, representational
+  and token-attribution analyses that produce the paper's figures and tables.
+keywords:
+  - large language models
+  - game theory
+  - mechanistic interpretability
+  - strategic decision making
+  - activation steering
+  - 2x2 games
+
+authors:
+  - family-names: Ferraz
+    given-names: Vinicius
+    affiliation: "Institute of Management & KD2 Lab, Karlsruhe Institute of Technology (KIT); Singularity AI Research, Singularity.Inc; BrainSpot Labs"
+    # orcid: "https://orcid.org/____-____-____-____"   # TODO
+  - family-names: Houf
+    given-names: Leon
+    affiliation: "Institute of Management & KD2 Lab, Karlsruhe Institute of Technology (KIT)"
+    # orcid: "https://orcid.org/____-____-____-____"   # TODO
+  - family-names: Ferrea
+    given-names: Enrico
+    affiliation: "salestech Data & AI"
+    # orcid: "https://orcid.org/____-____-____-____"   # TODO
+
+# TODO — fill in at release:
+#   version, date-released, and the software DOI minted by archiving the GitHub
+#   release on Zenodo. The DATA deposit has its own separate DOI; see docs/DATA.md.
+# version: "1.0.0"
+# date-released: "2026-__-__"
+# doi: "10.5281/zenodo.__________"
+
+preferred-citation:
+  type: article
+  title: "The internal anatomy of strategic choice in large language models"
+  authors:
+    - family-names: Ferraz
+      given-names: Vinicius
+    - family-names: Houf
+      given-names: Leon
+    - family-names: Ferrea
+      given-names: Enrico
+  year: 2026
+  # TODO — journal/volume/pages/doi once published; arXiv id if preprinted first.
+  # journal: ""
+  # doi: ""
+
+references:
+  - type: article
+    title: "Capturing the complexity of human strategic decision-making with machine learning"
+    authors:
+      - family-names: Zhu
+        given-names: Jian-Qiao
+      - family-names: Peterson
+        given-names: Joshua C.
+      - family-names: Enke
+        given-names: Benjamin
+      - family-names: Griffiths
+        given-names: Thomas L.
+    journal: "Nature Human Behaviour"
+    volume: 9
+    start: 2114
+    end: 2120
+    year: 2025
+    notes: "Source of the Griffiths human reference data summarised in data/human_refs/."
+  - type: unpublished
+    title: "Similarity and strategic choice in 2x2 games"
+    authors:
+      - family-names: Moore
+        given-names: Don A.
+      - family-names: Germano
+        given-names: Fabrizio
+      - family-names: Nagel
+        given-names: Rosemarie
+    year: 2026
+    notes: >-
+      Working paper. Source of the 144-perspective 2x2 catalogue and the associated human
+      choice data summarised in data/human_refs/. Participant-level records are not
+      redistributed here.

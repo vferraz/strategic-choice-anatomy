@@ -1,0 +1,6 @@
+agent,display,primary_rule,secondary_rule,primary_fit,primary_ci_lo,primary_ci_hi,secondary_fit,stability,classification,n_games_diagnostic
+qwen,Qwen2.5-72B,rNES,Level-2 Alpha,0.6527777777777778,0.5416666666666666,0.7638888888888888,0.6111111111111112,0.6015,hybrid,72
+qwen_instruct,Qwen2.5-72B-Instruct,Level-2 Alpha,rNES,0.6666666666666666,0.5694444444444444,0.7777777777777778,0.6388888888888888,0.5545,hybrid,72
+llama31_instruct,Llama-3.1-70B-Instruct,Level-1 Alpha,Level-5 Alpha,0.5972222222222222,0.4861111111111111,0.7083333333333334,0.5555555555555556,0.8565,hybrid,72
+gptoss,GPT-OSS-120B,Level-5 Alpha,Level-2,0.8333333333333334,0.75,0.9166666666666666,0.75,0.8945,hybrid,72
+nagel,Human (MGN),Level-1 Alpha,Level-5 Alpha,0.6748275437299828,0.6460796994333581,0.702546039664942,0.6384885439763488,1.0,hybrid,72

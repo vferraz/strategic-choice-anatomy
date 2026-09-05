@@ -1,0 +1,59 @@
+{
+  "self_checks": [
+    {
+      "model": "qwen",
+      "layer": 65,
+      "cos_refit_vs_shipped": 0.9999999999999998
+    },
+    {
+      "model": "qwen",
+      "layer": 79,
+      "cos_refit_vs_shipped": 0.9999999999999998
+    },
+    {
+      "model": "qwen_instruct",
+      "layer": 65,
+      "cos_refit_vs_shipped": 0.9999999999999996
+    },
+    {
+      "model": "qwen_instruct",
+      "layer": 79,
+      "cos_refit_vs_shipped": 0.9999999999999998
+    },
+    {
+      "model": "llama31_instruct",
+      "layer": 65,
+      "cos_refit_vs_shipped": 0.9999999999999998
+    },
+    {
+      "model": "llama31_instruct",
+      "layer": 79,
+      "cos_refit_vs_shipped": 0.9999999999999998
+    }
+  ],
+  "extra": {
+    "dose_zero_cells": 2592,
+    "dose_zero_mismatches": 0,
+    "max_abs_perm_letter_slope": 1.3745999999999996,
+    "per_cell_max": {
+      "llama31_instruct_l65_perm0": 0.9092583333333332,
+      "llama31_instruct_l65_perm1": 1.3745999999999996,
+      "llama31_instruct_l65_perm2": 1.1664583333333332,
+      "llama31_instruct_l79_perm0": 0.10436666666666665,
+      "llama31_instruct_l79_perm1": 0.04173333333333334,
+      "llama31_instruct_l79_perm2": 0.07705000000000002,
+      "qwen_l65_perm0": 0.14263333333333336,
+      "qwen_l65_perm1": 0.4244083333333332,
+      "qwen_l65_perm2": 0.2529416666666666,
+      "qwen_l79_perm0": 0.032466666666666706,
+      "qwen_l79_perm1": 0.04971666666666664,
+      "qwen_l79_perm2": 0.02749166666666664,
+      "qwen_instruct_l65_perm0": 1.0013083333333335,
+      "qwen_instruct_l65_perm1": 1.1132749999999998,
+      "qwen_instruct_l65_perm2": 0.24836666666666665,
+      "qwen_instruct_l79_perm0": 0.019716666666666667,
+      "qwen_instruct_l79_perm1": 0.027483333333333294,
+      "qwen_instruct_l79_perm2": 0.019424999999999994
+    }
+  }
+}

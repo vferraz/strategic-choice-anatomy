@@ -1,7 +1,8 @@
 """Akata one-shot DENSE preflight (qwen, qwen_instruct, llama31_instruct).
-Per spec docs/AKATA_ONESHOT_RECOLLECTION.md §7 — the mechanics gate, NOT a full run:
+Per the collection spec in docs/METHODS.md ("Preflight gate") — the mechanics gate,
+NOT a full run:
 render -> generate(do_sample=False) -> parse J/P -> capture residual at the `A: Option` slot at
-ALL layers (incl L0). Writes a table for PI approval.
+ALL layers (incl L0). Writes a table for sign-off before a full run.
 
 Loads via the VALIDATED `_setup_model` (Spark CPU-first bnb8 patch) — a raw from_pretrained OOM'd.
 Run under .venv."""
@@ -99,4 +100,13 @@ def main():
 
 
 if __name__ == "__main__":
+    # phase-4: this script takes no options, but without a parser `python preflight_dense.py --help`
+    # started a 72B model load instead of printing help. The parser accepts no arguments, so a bare
+    # run behaves exactly as before; --help prints the docstring and an unknown flag errors out.
+    import argparse
+    argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="Takes no options. Loads three 72B-class models — see docs/METHODS.md.",
+    ).parse_args()
     main()

@@ -1,0 +1,5 @@
+guardrail,status,detail
+canonical_axis,pass,All cross-game behaviour uses action == canonical_action_p1.
+q05_delta1c_spine,pass,Primary incentive axis is canonical-signed Delta1c at q=0.5.
+realized_action_only,pass,Dense uses parse_ok-gated decoded_action; GPT-OSS uses commit-resolved realized_action.
+no_old_layerB_tables,pass,"Builders read corrected root, metadata, Layer A trait/lambda tables, and optional causal status only."

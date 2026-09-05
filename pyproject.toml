@@ -25,19 +25,24 @@ dependencies = [
 
 [project.optional-dependencies]
 # Tier 1 + Tier 2: rebuild figures and regenerate tables. No GPU, no torch.
+# Every entry below has at least one import site in the shipped tree. `umap-learn`,
+# `nbconvert`, `jupyter` and `jupytext` were dropped in phase 4: zero import sites each
+# (executed notebooks are not part of the release), and `jupyter` alone pulled in the whole
+# JupyterLab stack, which dominated a CI install. `nbformat` stays — analysis/layer_a/
+# build_notebooks.py and the two _make_notebooks.py helpers genuinely import it.
 analysis = [
     "scipy>=1.11.0",
-    "scikit-learn>=1.4.0",
+    # Pinned, not floored: four committed Layer-A tables (s_attribution_shap,
+    # s_shap_beeswarm, s_shap_delta1_dependence, s_variance_partition) are sha256-identical
+    # under 1.8.0 and differ under 1.9.0 (SHAP tie order). The pin exists for byte-level
+    # reproduction of the released tables, not for correctness. See docs/ENVIRONMENTS.md.
+    "scikit-learn==1.8.0",
     "matplotlib>=3.7.0",
     "statsmodels>=0.14.0",
     "shap>=0.44.0",
     "nashpy>=0.0.35",
-    "umap-learn>=0.5.0",
     "adjustText>=1.0.0",
     "nbformat>=5.9.0",
-    "nbconvert>=7.0.0",
-    "jupyter>=1.0.0",
-    "jupytext>=1.16.0",
 ]
 
 # Tier 3: re-collect the substrate. bitsandbytes 8-bit loading is CUDA/Linux only.

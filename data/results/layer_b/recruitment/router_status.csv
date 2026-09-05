@@ -1,0 +1,2 @@
+model,status,source,n_rows,note
+gptoss,source_missing,<repo>/analysis/block_b/tables/moe_router_causal/summary/router_causal_verdicts.csv,0,Router verdict table is absent; GPT-OSS interpretation remains residual-only descriptive.

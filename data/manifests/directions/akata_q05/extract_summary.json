@@ -1,0 +1,17 @@
+{
+  "qwen": {
+    "status": "OK",
+    "n_directions": 799,
+    "npz": "analysis/block_b/tables/causal_oneshot/directions_akata_q05/qwen/directions.npz"
+  },
+  "qwen_instruct": {
+    "status": "OK",
+    "n_directions": 799,
+    "npz": "analysis/block_b/tables/causal_oneshot/directions_akata_q05/qwen_instruct/directions.npz"
+  },
+  "llama31_instruct": {
+    "status": "OK",
+    "n_directions": 799,
+    "npz": "analysis/block_b/tables/causal_oneshot/directions_akata_q05/llama31_instruct/directions.npz"
+  }
+}

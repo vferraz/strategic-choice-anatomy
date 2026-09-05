@@ -1,0 +1,14 @@
+{
+  "analysis": "analysis/layerB_neural/fusion_associative (game-block-null and GPT-OSS pure-site regeneration 2026-07-12)",
+  "generator": "build_fusion_figures.py -> oss_router_fusion.py -> fig_fusion_combined.py",
+  "data_root": "output/oneshot_akata_main_dl",
+  "cache": "analysis/layerB_final/_data/baseline (float32, 576 realized P1-baseline rows/model/layer)",
+  "decision_label": "dense decoded_action gated by parse_ok; GPT-OSS primary geometry uses only games whose four P1-baseline cells are literal pure commitments",
+  "gptoss_primary_population": "432 rows from 108 games with four pure commitments; all 525 pure rows and the heterogeneous 576-row population are separate capture-site sensitivities",
+  "primary_incentive_axis": "canonical-signed Delta1c at q=0.5",
+  "permutation_unit": "game; the four counterbalanced presentation forms move jointly and are matched by counterbalance_id",
+  "n_perm": 200,
+  "seed": 20260702,
+  "verified": "objective residual onset (first three-layer p<0.05 run): Qwen-I 0.70 (L56), Qwen base 0.70 (L56), Llama 0.46 (L37), GPT-OSS pure-complete none; GPT-OSS pure-complete objective below-null layers: router 0/14, residual 0/36; empirical: router 0/14, residual 0/36",
+  "figure_check": "regenerated fig_fusion_combined from the corrected game-block-null tables"
+}

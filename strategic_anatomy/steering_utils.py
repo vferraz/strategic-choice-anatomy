@@ -46,14 +46,33 @@ from strategic_anatomy.runtime import (
 )
 
 
-DEFAULT_VECTOR_FILE = (
-    "_legacy/validation_logs/exp1_20260411_STEERING_PREP/"
-    "steering_vectors/steering_vectors_exp1_qwen_l65_79.npz"
-)
-DEFAULT_METADATA_FILE = (
-    "_legacy/validation_logs/exp1_20260411_STEERING_PREP/"
-    "steering_vector_metadata.csv"
-)
+# NOTE (phase-4): these defaulted to a private-repo run directory under `_legacy/`
+# (`_legacy/validation_logs/exp1_20260411_STEERING_PREP/…`) which is never copied into the
+# release — so public `--help` advertised a path that cannot exist and leaked an internal
+# run id. They are now empty: the flags are required, and `resolve_vector_files()` raises an
+# actionable error naming them. Repointing at a shipped vector set instead would silently
+# change which steering vectors a bare run uses, so it is deliberately not done.
+DEFAULT_VECTOR_FILE = ""
+DEFAULT_METADATA_FILE = ""
+
+
+def resolve_vector_files(vector_file: str, metadata_file: str) -> tuple[str, str]:
+    """Validate the steering-vector CLI pair, failing with an actionable message.
+
+    Released direction sets live under ``$SCA_DATA_ROOT/steering/directions/{akata,
+    akata_perp,akata_perm}/{model}/`` (see ``docs/DATA.md``); pass the ``.npz`` and its
+    ``manifest.json``/metadata CSV explicitly.
+    """
+    missing = [n for n, v in (("--vector_file", vector_file),
+                              ("--metadata_file", metadata_file)) if not v]
+    if missing:
+        raise SystemExit(
+            f"{' and '.join(missing)} required — there is no default. The historical default "
+            "named a private-repo `_legacy/` run directory that is not part of this release.\n"
+            "Released direction sets: $SCA_DATA_ROOT/steering/directions/{akata,akata_perp,"
+            "akata_perm}/{model}/ (see docs/DATA.md)."
+        )
+    return vector_file, metadata_file
 
 CORE_GAMES = ["PdPd", "ChCh", "ShSh", "BaBa"]
 DEFAULT_TARGET_TRAITS = [
@@ -661,10 +680,19 @@ def main():
     p.add_argument("--rounds", type=int, default=20)
     p.add_argument("--output_dir", default="output")
     p.add_argument("--log_root", default="validation_logs")
-    p.add_argument("--vector_file", default=DEFAULT_VECTOR_FILE)
-    p.add_argument("--metadata_file", default=DEFAULT_METADATA_FILE)
+    p.add_argument("--vector_file", default=DEFAULT_VECTOR_FILE,
+                   help="steering-vector .npz (REQUIRED; released sets live under "
+                        "$SCA_DATA_ROOT/steering/directions/ — see docs/DATA.md)")
+    p.add_argument("--metadata_file", default=DEFAULT_METADATA_FILE,
+                   help="steering-vector metadata CSV (REQUIRED; see --vector_file)")
     p.add_argument("--probe_prefix", default="\nDecision: ")
-    p.add_argument("--traits_file", default=str(pathlib.Path(__file__).resolve().parent / "traits.json"))
+    # NOTE (phase-4): this defaulted to `<package>/traits.json`, a file that has not existed
+    # for some time — any run relying on the default crashed inside load_traits(). It is now
+    # required. Repointing at the packaged traits_oneshot.json would turn that crash into a
+    # successful run with a DIFFERENT trait set, which is a behaviour change, so it is not done.
+    p.add_argument("--traits_file", default="",
+                   help="trait-cue definition JSON (REQUIRED; the packaged set is "
+                        "strategic_anatomy/traits_oneshot.json)")
     p.add_argument("--dry_run", action="store_true")
     # model loading compatibility
     p.add_argument("--load_8bit", action="store_true")
@@ -691,6 +719,14 @@ def main():
         print(f"  ... {len(conditions)-20} more")
     if args.dry_run:
         return
+
+    resolve_vector_files(args.vector_file, args.metadata_file)
+    if not args.traits_file:
+        raise SystemExit(
+            "--traits_file required — there is no default. The historical default named a "
+            "`traits.json` that no longer exists. The packaged trait set is "
+            "strategic_anatomy/traits_oneshot.json."
+        )
 
     _disable_hf_allocator_warmup()
     _install_spark_cpu_first_bnb8_patch()

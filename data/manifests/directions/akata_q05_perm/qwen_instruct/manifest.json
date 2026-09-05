@@ -1,0 +1,154 @@
+{
+  "method": "unit(d_perm - (d_perm.ell)ell); d_perm = fit_d_inc on ACROSS-GAME game-level permuted delta1_c (sign-aligned to permuted target); ell = norm.weight * (W_U[' J'] - W_U[' P']) unit-normalized (checkpoint bf16->fp32).",
+  "model": "qwen_instruct",
+  "repo": "Qwen/Qwen2.5-72B-Instruct",
+  "git_commit": "8d8370e306cea26c768a118de727cf9133bf9378",
+  "created_at": "2026-08-22T17:11:01+00:00",
+  "layers": [
+    65,
+    79
+  ],
+  "n_fit_games": 144,
+  "corr_threshold": 0.15,
+  "within_family_dropped": "Step-0 gate: median|cos(within-fam d_perm,d_inc_true)|>0.6 all models/layers -> across-game is the only permuted control.",
+  "jp_token_ids": {
+    "J": 619,
+    "P": 393
+  },
+  "ell_validation_vs_committed_perp_manifest": {
+    "d_inc_l65": {
+      "my_cos": 0.04420686864772894,
+      "manifest_cos_removed": 0.04420686864772895,
+      "abs_diff": 6.938893903907228e-18
+    },
+    "d_inc_l79": {
+      "my_cos": 0.17387200469557884,
+      "manifest_cos_removed": 0.17387200469557887,
+      "abs_diff": 2.7755575615628914e-17
+    }
+  },
+  "slots": {
+    "perm0": {
+      "seed": 0,
+      "corr_yperm_y": -0.1176470588235294
+    },
+    "perm1": {
+      "seed": 1,
+      "corr_yperm_y": -0.025210084033613415
+    },
+    "perm2": {
+      "seed": 2,
+      "corr_yperm_y": -0.03361344537815127
+    }
+  },
+  "seed_search_log": [
+    {
+      "seed": 0,
+      "corr": -0.1176470588235294,
+      "accepted": true
+    },
+    {
+      "seed": 1,
+      "corr": -0.025210084033613415,
+      "accepted": true
+    },
+    {
+      "seed": 2,
+      "corr": -0.03361344537815127,
+      "accepted": true
+    }
+  ],
+  "per_direction": {
+    "d_inc_perm0_l65": {
+      "slot": 0,
+      "seed": 0,
+      "layer": 65,
+      "corr_yperm_y": -0.1176470588235294,
+      "cos_dperm_dinc_true": -0.7424241521388308,
+      "cos_removed_ell": -0.01393418607427482,
+      "perp_norm_before_renorm": 0.9999029145164271,
+      "cos_perm_perp_ell": 3.469446951953614e-17,
+      "cos_perm_perp_dinc_true": -0.741880191202448,
+      "norm": 1.0
+    },
+    "d_inc_perm0_l79": {
+      "slot": 0,
+      "seed": 0,
+      "layer": 79,
+      "corr_yperm_y": -0.1176470588235294,
+      "cos_dperm_dinc_true": -0.6865201016157987,
+      "cos_removed_ell": -0.08525411231104531,
+      "perp_norm_before_renorm": 0.9963592406025329,
+      "cos_perm_perp_ell": -4.2500725161431774e-17,
+      "cos_perm_perp_dinc_true": -0.6741512205914186,
+      "norm": 0.9999998807907104
+    },
+    "d_inc_perm1_l65": {
+      "slot": 1,
+      "seed": 1,
+      "layer": 65,
+      "corr_yperm_y": -0.025210084033613415,
+      "cos_dperm_dinc_true": -0.28457267670367636,
+      "cos_removed_ell": -0.04384243746739677,
+      "perp_norm_before_renorm": 0.9990384580570051,
+      "cos_perm_perp_ell": 1.9081958235744878e-17,
+      "cos_perm_perp_dinc_true": -0.28290656635886147,
+      "norm": 0.9999998807907104
+    },
+    "d_inc_perm1_l79": {
+      "slot": 1,
+      "seed": 1,
+      "layer": 79,
+      "corr_yperm_y": -0.025210084033613415,
+      "cos_dperm_dinc_true": -0.4269224986278767,
+      "cos_removed_ell": -0.08089449504837465,
+      "perp_norm_before_renorm": 0.9967226698891067,
+      "cos_perm_perp_ell": 5.898059818321144e-17,
+      "cos_perm_perp_dinc_true": -0.41421472900873535,
+      "norm": 1.0000001192092896
+    },
+    "d_inc_perm2_l65": {
+      "slot": 2,
+      "seed": 2,
+      "layer": 65,
+      "corr_yperm_y": -0.03361344537815127,
+      "cos_dperm_dinc_true": -0.2537869272561283,
+      "cos_removed_ell": -0.017542959196334633,
+      "perp_norm_before_renorm": 0.9998461104503215,
+      "cos_perm_perp_ell": 1.734723475976807e-17,
+      "cos_perm_perp_dinc_true": -0.2530503497676152,
+      "norm": 0.9999998807907104
+    },
+    "d_inc_perm2_l79": {
+      "slot": 2,
+      "seed": 2,
+      "layer": 79,
+      "corr_yperm_y": -0.03361344537815127,
+      "cos_dperm_dinc_true": -0.42819265304121323,
+      "cos_removed_ell": -0.008534532932770896,
+      "perp_norm_before_renorm": 0.9999635802106094,
+      "cos_perm_perp_ell": 4.5102810375396984e-17,
+      "cos_perm_perp_dinc_true": -0.42672427789938117,
+      "norm": 0.9999998807907104
+    }
+  },
+  "direction_keys": [
+    "d_inc_perm0_l65",
+    "d_inc_perm0_l79",
+    "d_inc_perm1_l65",
+    "d_inc_perm1_l79",
+    "d_inc_perm2_l65",
+    "d_inc_perm2_l79"
+  ],
+  "vector_norms": {
+    "d_inc_perm0_l65": 1.0,
+    "d_inc_perm0_l79": 0.9999998807907104,
+    "d_inc_perm1_l65": 0.9999998807907104,
+    "d_inc_perm1_l79": 1.0000001192092896,
+    "d_inc_perm2_l65": 0.9999998807907104,
+    "d_inc_perm2_l79": 0.9999998807907104
+  },
+  "incentive_belief": "q05",
+  "belief_evidence": "slot corrs match independent corr(y_perm, y_q05) fingerprint (seed1 -0.025, seed2 -0.034 == audit values 0.025/0.034 in |.|); verified 2026-07-26 audit",
+  "seed_set_note": "q05 seed set = 0/1/2 (seed 0 passes |corr|<=0.15 against the q05 target, corr -0.118) vs 1/2/3 in the empirical-era perm arm (seed 0 rejected there at -0.157). Allowed by the pre-registered replacement rule; the two perm arms are NOT seed-matched \u2014 state this in any cross-arm comparison."
+}

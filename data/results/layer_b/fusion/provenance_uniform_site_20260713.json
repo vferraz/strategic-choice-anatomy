@@ -1,0 +1,10 @@
+{
+ "analysis": "gptoss uniform-site recap geometry (2026-07-13)",
+ "substrate": "oneshot_akata_gptoss_recap (repaired release; 144/144 games, 46080 arrays verified, L0 invariant)",
+ "population": "541 p1_baseline rows with use_in_neural_target=1 (525 pure + 16 stated-mixed; 35 default_uniform excluded)",
+ "target": "stated policy P(canonical_action_p1); pure->0/1, mixed->stated_p_act0 canonical-mapped",
+ "estimator": "policy axis = unit centered OLS slope on p_canonical; incentive axis = unit centered OLS slope on Delta1c; angle; joint game-block permutation null n_perm=200 seed=20260702, p=(k+1)/(n+1)",
+ "verification": "final-layer residual/uniform angle 39.03 reproduces the independent audit exactly; null stats within MC tolerance",
+ "generator": "recap_cache.py + recap_variants_freeze.py (session outputs, copied to analysis/layerB_neural/fusion_associative/)",
+ "backups": "/sessions/relaxed-cool-pascal/mnt/neural-llms-gametheory/analysis/layerB_neural/fusion_associative/tables/_pre_uniform_site_20260713"
+}

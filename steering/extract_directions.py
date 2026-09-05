@@ -43,6 +43,7 @@ from strategic_anatomy.config import (
     repo_root,
     results_root,
     steering_root,
+    substrate_root,
 )
 from collection.oneshot_common import (  # noqa: E402
     canonical_sign,
@@ -114,11 +115,13 @@ def _groupkfold_by_game(games: np.ndarray, k: int = 5, seed: int = 0):
 
 
 # ---------------------------------------------------------------------------
-# NOTE (phase-1 port): kept verbatim. This default names the superseded A/B-matrix
-# substrate (`output/oneshot_main`), which is excluded from the release; the released
-# substrate is reached via `strategic_anatomy.config.substrate_root()`. Repointing it
-# would change a CLI default, so it is flagged for PI sign-off rather than changed.
-SUBSTRATE_ROOT = ROOT / "output" / "oneshot_main" / "substrate"   # default (A/B); override via --substrate-root
+# NOTE (phase-4): the ported default named the superseded A/B-matrix substrate
+# (`output/oneshot_main/substrate`), which is excluded from the release and therefore
+# resolved to a path that cannot exist in a clone — `_iter_games` silently yielded
+# nothing. Repointed to the released Akata substrate (approved 2026-08-16, resolves
+# phase-2 open question 10). The flag name and semantics are unchanged; only the value
+# a bare invocation resolves to moved, from the private-repo layout to the deposit layout.
+SUBSTRATE_ROOT = substrate_root()   # override via --substrate-root
 
 
 def _iter_games(model: str):
@@ -448,9 +451,9 @@ def main():
                         "{moves-root}/{model}/{game}/moves.parquet (SPEC_oneshot_FINAL §9). "
                         "Default empty = legacy substrate slot-argmax.")
     p.add_argument("--substrate-root", default="",
-                   help="override the substrate base dir (default: the superseded A/B root). "
-                        "For the released corrected substrate pass $SCA_DATA_ROOT/substrate — its decoded_action "
-                        "is ALREADY the generate->parse J/P decision, so --moves-root is not needed.")
+                   help="override the substrate base dir (default: $SCA_DATA_ROOT/substrate, the "
+                        "released corrected substrate). Its decoded_action is ALREADY the "
+                        "generate->parse J/P decision, so --moves-root is not needed.")
     args = p.parse_args()
     if args.substrate_root:
         global SUBSTRATE_ROOT

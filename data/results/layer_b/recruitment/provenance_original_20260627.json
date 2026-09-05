@@ -1,0 +1,14 @@
+{
+  "analysis": "analysis/layerB_recruitment_final",
+  "data_root": "$SCA_DATA_ROOT/substrate",
+  "models": [
+    "qwen_instruct",
+    "qwen",
+    "llama31_instruct",
+    "gptoss"
+  ],
+  "n_boot": 1000,
+  "primary_behavior_target": "realized P1 baseline action aligned to canonical_action_p1",
+  "primary_incentive_axis": "canonical-signed Delta1c at q=0.5",
+  "seed": 20260627
+}

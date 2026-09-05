@@ -1,0 +1,281 @@
+layer,feature_set,target,target_label,scope,auc,auc_lo,auc_hi,n,n_games
+1,router_gate,incentive_sign_q05,objective incentive sign,all,0.793454218106996,0.7378240451318867,0.8438270343061026,576,144
+1,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.7015562520263698,0.6191305805736144,0.7780217609434932,525,144
+1,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.794525146484375,0.7316396420953756,0.8539813041010359,576,144
+1,router_gate,literal_J_choice,literal J/P choice control,pure,0.9966286910020925,0.9926633517939241,0.9993405496188119,525,144
+1,router_gate,stimulus_control,strategically inert payoff control,all,0.5014829282407407,0.44945644432022347,0.558625632199329,576,144
+1,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.6799125514403292,0.6211547479367518,0.7349306028449286,576,144
+1,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.3523181670809467,0.26160412608006445,0.43977305216188206,525,144
+1,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.658843994140625,0.5709982951830778,0.7465420845632429,576,144
+1,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.46202191350848637,0.41981247670408167,0.5078035375792289,525,144
+1,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.39951051311728397,0.3310205256170451,0.4680334581768657,576,144
+1,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.6583654835390946,0.6015081435491592,0.7159710296433437,576,144
+1,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.3281638387549983,0.24953202038851996,0.40298344399443,525,144
+1,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.62628173828125,0.5309709312656345,0.7263392017926974,576,144
+1,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.4846111369448966,0.44203308832390503,0.52947011857757,525,144
+1,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.41745032793209874,0.34636354792320073,0.48807223755908924,576,144
+1,residual,incentive_sign_q05,objective incentive sign,all,0.7534336419753087,0.7007054417937154,0.8050725773065535,576,144
+1,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.48351885874851397,0.3555128003225278,0.6053342013888888,525,144
+1,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.607421875,0.5054267170171625,0.700130953035425,576,144
+1,residual,literal_J_choice,literal J/P choice control,pure,0.9948558474773308,0.9854464035782873,0.9999859767796698,525,144
+1,residual,stimulus_control,strategically inert payoff control,all,0.5379774305555556,0.49165438618149104,0.5826207347275729,576,144
+3,router_gate,incentive_sign_q05,objective incentive sign,all,0.8293338477366256,0.7765432300376253,0.8750307353144624,576,144
+3,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.7235491192045823,0.6524009560846346,0.79441679154559,525,144
+3,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.7838134765625,0.7246915179014943,0.8423442044069751,576,144
+3,router_gate,literal_J_choice,literal J/P choice control,pure,0.9947686584515228,0.9853972710959384,0.9997040852585657,525,144
+3,router_gate,stimulus_control,strategically inert payoff control,all,0.5798128858024691,0.5285391535035522,0.6289724137127082,576,144
+3,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.7140817901234567,0.6563856738683128,0.7725254507359439,576,144
+3,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.38598292445693283,0.2853934886389248,0.5053649951639632,525,144
+3,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.613494873046875,0.5043563480135003,0.7286994247773537,576,144
+3,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.8047401767030924,0.7617572991977923,0.841999125202701,525,144
+3,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.4406467013888889,0.3803456963284671,0.5053950414817672,576,144
+3,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.5906250000000001,0.5255321679352487,0.6563690560059263,576,144
+3,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.34810331784286175,0.2471943590312349,0.44999170705237146,525,144
+3,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.6085662841796875,0.5043464512960391,0.7174857454039698,576,144
+3,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.4664830853289933,0.4241108520727874,0.5106168567230513,525,144
+3,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.42121793016975306,0.354270608447617,0.49275442280619086,576,144
+3,residual,incentive_sign_q05,objective incentive sign,all,0.8129243827160494,0.7654980772780652,0.8589587419374023,576,144
+3,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.6529774127310062,0.5680808442163771,0.7339853736584414,525,144
+3,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.764251708984375,0.6916118096346302,0.8288195822360115,576,144
+3,residual,literal_J_choice,literal J/P choice control,pure,0.9962218088816555,0.9881300534448753,1.0,525,144
+3,residual,stimulus_control,strategically inert payoff control,all,0.5199773341049383,0.4724534615366709,0.5720791965080565,576,144
+6,router_gate,incentive_sign_q05,objective incentive sign,all,0.8034722222222221,0.7552520639311346,0.8481703169228112,576,144
+6,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.6949637955257755,0.5885360242476912,0.7836950416602235,525,144
+6,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.8087158203125,0.7397258947513161,0.8691555215768642,576,144
+6,router_gate,literal_J_choice,literal J/P choice control,pure,0.9891159032783075,0.9769509827195664,0.9973881041800087,525,144
+6,router_gate,stimulus_control,strategically inert payoff control,all,0.5170476466049383,0.46423438070481715,0.5792238273231743,576,144
+6,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.6972865226337448,0.638010045075952,0.7572034082252246,576,144
+6,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.3926834540149141,0.29853649428567286,0.48656868974067874,525,144
+6,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.651580810546875,0.559177807486631,0.7472083972797293,576,144
+6,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.613476517089049,0.566640591847091,0.6595740252302555,525,144
+6,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.469654224537037,0.40949366897252326,0.5221534721920958,576,144
+6,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.612988683127572,0.550287847849569,0.6726719563237429,576,144
+6,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.4355884577974711,0.3393920825000406,0.5450856504476792,525,144
+6,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.634735107421875,0.5436038968764076,0.7305074598166215,576,144
+6,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.6180103464310626,0.5729467877866814,0.6644925212286089,525,144
+6,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.461377555941358,0.40284300343870655,0.5163153051267755,576,144
+6,residual,incentive_sign_q05,objective incentive sign,all,0.8325102880658435,0.7855333636769678,0.8777695013552296,576,144
+6,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.65335566843186,0.5589298224423239,0.7389727293982613,525,144
+6,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.785247802734375,0.7159520657260643,0.8479985596061087,576,144
+6,residual,literal_J_choice,literal J/P choice control,pure,0.9924000232504069,0.9803988535712791,1.0,525,144
+6,residual,stimulus_control,strategically inert payoff control,all,0.5182532793209876,0.4646867942624338,0.5743497611380912,576,144
+9,router_gate,incentive_sign_q05,objective incentive sign,all,0.8104552469135802,0.757616606417059,0.8631853181432146,576,144
+9,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.6351453582621852,0.5515819897936143,0.7071405992161716,525,144
+9,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.75830078125,0.6918933867257544,0.822449682667089,576,144
+9,router_gate,literal_J_choice,literal J/P choice control,pure,0.9904237386654267,0.977821725432073,0.9989386093752674,525,144
+9,router_gate,stimulus_control,strategically inert payoff control,all,0.5726032021604939,0.5210889758526212,0.6199692982729773,576,144
+9,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.639358281893004,0.5821562492666077,0.701461517066504,576,144
+9,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.3907381389819518,0.2990839894139142,0.47415937659484764,525,144
+9,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.58013916015625,0.47278668165498117,0.6919292079829297,576,144
+9,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.7866629853522437,0.7487224612804917,0.8223858073270525,525,144
+9,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.44328703703703703,0.38442789540288574,0.5015133156653339,576,144
+9,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.5614519032921811,0.5088799400793848,0.6178103317328887,576,144
+9,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.25915919161353074,0.18739378112974034,0.3348857327140632,525,144
+9,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.5247650146484375,0.4217289509144864,0.638370123357942,576,144
+9,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.5907056498488724,0.5477689767083003,0.6361870526432089,525,144
+9,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.4509669174382716,0.39197329381254314,0.5077767129381382,576,144
+9,residual,incentive_sign_q05,objective incentive sign,all,0.8399562757201647,0.7924588179782962,0.8837805599633471,576,144
+9,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.6201772398141142,0.5127968153272251,0.7057375498324634,525,144
+9,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.748687744140625,0.6840131217723191,0.8132484796199849,576,144
+9,residual,literal_J_choice,literal J/P choice control,pure,0.9923854917461056,0.9803919478239055,1.0,525,144
+9,residual,stimulus_control,strategically inert payoff control,all,0.5275728202160495,0.47891327459058436,0.5798957581852041,576,144
+12,router_gate,incentive_sign_q05,objective incentive sign,all,0.8724665637860082,0.8296337724356444,0.9110171677847636,576,144
+12,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.6666486544904355,0.5672881682125314,0.7468165845771917,525,144
+12,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.72479248046875,0.6513453731422556,0.8019724982784809,576,144
+12,router_gate,literal_J_choice,literal J/P choice control,pure,0.9902202976052081,0.979046790759864,0.9971180583406861,525,144
+12,router_gate,stimulus_control,strategically inert payoff control,all,0.5618851273148148,0.516702188422859,0.6083866825810185,576,144
+12,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.6734567901234568,0.6157220778619895,0.737025850133526,576,144
+12,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.5694369393710148,0.46509543124702957,0.6678178204848221,525,144
+12,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.726959228515625,0.6465787941956792,0.8036042846027684,576,144
+12,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.6031155545222041,0.5521241901509043,0.6498648221212666,525,144
+12,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.47389805169753085,0.4109541430483595,0.5418841965570481,576,144
+12,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.6596386316872429,0.602445786959415,0.7191744237094954,576,144
+12,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.5314762779639035,0.40448271231256383,0.6521333166810866,525,144
+12,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.7209625244140625,0.6473097820636098,0.7967674110634132,576,144
+12,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.5187601720530111,0.4723661423217145,0.5676265902490442,525,144
+12,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.46659191743827155,0.4052348149845119,0.5311752113125952,576,144
+12,residual,incentive_sign_q05,objective incentive sign,all,0.8551311728395062,0.8071683072572722,0.8996790351087893,576,144
+12,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.6046687560791095,0.48993529691489146,0.7038284707224643,525,144
+12,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.733123779296875,0.6689432559148902,0.7985618490772163,576,144
+12,residual,literal_J_choice,literal J/P choice control,pure,0.992400023250407,0.9804510706147507,1.0,525,144
+12,residual,stimulus_control,strategically inert payoff control,all,0.5519989390432098,0.4980855048472254,0.6056492499869903,576,144
+15,router_gate,incentive_sign_q05,objective incentive sign,all,0.8588863168724279,0.8143491651088882,0.9027961112238455,576,144
+15,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.6510320976980438,0.54379270647653,0.7413295155277084,525,144
+15,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.792327880859375,0.7278295476431219,0.855908105526161,576,144
+15,router_gate,literal_J_choice,literal J/P choice control,pure,0.9835648686352012,0.9698104775922368,0.9940858582707783,525,144
+15,router_gate,stimulus_control,strategically inert payoff control,all,0.5759669174382716,0.5202636701374062,0.6347110057102898,576,144
+15,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.6139274691358025,0.5493115441741212,0.6732197004909785,576,144
+15,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.41862098778774454,0.3199633077795028,0.5286060526528304,525,144
+15,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.648590087890625,0.5652889615367584,0.7399827968136133,576,144
+15,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.44931411299697743,0.40279953059724694,0.49813168493759846,525,144
+15,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.4323881172839506,0.3603116907303792,0.5089871843125108,576,144
+15,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.5134002057613168,0.43278571640550806,0.6058988297450906,576,144
+15,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.33680968334594186,0.2156985439999553,0.4636154351288649,525,144
+15,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.5909576416015625,0.49407868071342087,0.6958507405107468,576,144
+15,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.4708643338758428,0.4484264065777984,0.4940908006762262,525,144
+15,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.41717303240740733,0.33494737716621314,0.4974584766912192,576,144
+15,residual,incentive_sign_q05,objective incentive sign,all,0.8949974279835391,0.8533557650337179,0.9333413952578535,576,144
+15,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.6839943802010159,0.5902540507474174,0.7682952296131604,525,144
+15,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.8123779296875,0.7636162012290589,0.8611556661559254,576,144
+15,residual,literal_J_choice,literal J/P choice control,pure,0.9960474308300395,0.9876530456075912,1.0,525,144
+15,residual,stimulus_control,strategically inert payoff control,all,0.5400270061728396,0.4853255170200192,0.6014399332368082,576,144
+18,router_gate,incentive_sign_q05,objective incentive sign,all,0.8913451646090534,0.8516040142909016,0.929380593037693,576,144
+18,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.6694045174537988,0.5599659839981304,0.7659112469931354,525,144
+18,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.784698486328125,0.7149701572701243,0.8537882401090311,576,144
+18,router_gate,literal_J_choice,literal J/P choice control,pure,0.9922401767030923,0.980151435062583,0.9999450502888096,525,144
+18,router_gate,stimulus_control,strategically inert payoff control,all,0.6729480131172839,0.6213821668332904,0.7237699532214505,576,144
+18,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.6400848765432099,0.5850075916866209,0.692611578529717,576,144
+18,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.5660326380633308,0.4639397192933049,0.6584504471501682,525,144
+18,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.694244384765625,0.6210877680070301,0.7707529150575726,576,144
+18,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.4929376889095559,0.44237593177105206,0.5400970445147312,525,144
+18,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.4324363425925926,0.3643902727455717,0.5007019110594252,576,144
+18,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.6087255658436214,0.5536598268182933,0.6607117511972072,576,144
+18,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.44977304657948775,0.36708995230121994,0.5357354275551683,525,144
+18,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.66778564453125,0.5943301098967252,0.7502090497962705,576,144
+18,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.4990263892118112,0.44897087870780805,0.5470992539382632,525,144
+18,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.41432171103395055,0.3406468973119139,0.48815303500577906,576,144
+18,residual,incentive_sign_q05,objective incentive sign,all,0.9001929012345679,0.861552974086258,0.9367424846648323,576,144
+18,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.7839079217551065,0.7038024574289176,0.8521280585437133,525,144
+18,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.8101806640625,0.7398946145408289,0.8704375027337409,576,144
+18,residual,literal_J_choice,literal J/P choice control,pure,1.0,0.9999999999999999,1.0,525,144
+18,residual,stimulus_control,strategically inert payoff control,all,0.7779224537037036,0.7309807114911436,0.821532370645438,576,144
+21,router_gate,incentive_sign_q05,objective incentive sign,all,0.8711033950617284,0.8280046542553191,0.9116679987387584,576,144
+21,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.6335782989300768,0.5441619001079858,0.7202766198241658,525,144
+21,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.7735595703125,0.7039281436509514,0.8362079680533693,576,144
+21,router_gate,literal_J_choice,literal J/P choice control,pure,0.9999854684956987,0.9999116502108688,1.0,525,144
+21,router_gate,stimulus_control,strategically inert payoff control,all,0.6025511188271604,0.5517922094253455,0.6571675773225095,576,144
+21,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.6306069958847736,0.5703489814827188,0.6983043873367677,576,144
+21,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.35772181995028646,0.2609893393996164,0.4664137373135613,525,144
+21,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.64599609375,0.5560400760466002,0.7521966099085411,576,144
+21,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.6258428272494768,0.5755313751933511,0.6758183129950115,525,144
+21,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.39695457175925924,0.3285938412497731,0.466062737807694,576,144
+21,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.5876736111111112,0.5239651323396534,0.6536846553299508,576,144
+21,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.34010591159623904,0.2380452142978403,0.45845088529482936,525,144
+21,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.6370849609375,0.5499970291146762,0.7303969575619893,576,144
+21,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.5344614624505928,0.48543608086900597,0.5841933238727626,525,144
+21,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.39943817515432095,0.33249961788747956,0.46362666398357755,576,144
+21,residual,incentive_sign_q05,objective incentive sign,all,0.9150334362139918,0.8790308906268662,0.9510751903841496,576,144
+21,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.8147087431103425,0.7496187709459413,0.8745158450441836,525,144
+21,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.798370361328125,0.7442120202125684,0.8545221170205809,576,144
+21,residual,literal_J_choice,literal J/P choice control,pure,1.0,0.9999999999999999,1.0,525,144
+21,residual,stimulus_control,strategically inert payoff control,all,0.7190272955246914,0.6673068779747393,0.7704010555130233,576,144
+22,router_gate,incentive_sign_q05,objective incentive sign,all,0.8425925925925926,0.7919762750270563,0.8875423747444623,576,144
+22,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.6552469469361288,0.523195403390696,0.7680097771073735,525,144
+22,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.752349853515625,0.6630511726660547,0.8339507264084198,576,144
+22,router_gate,literal_J_choice,literal J/P choice control,pure,0.9998546849569867,0.9994870025088307,1.0,525,144
+22,router_gate,stimulus_control,strategically inert payoff control,all,0.675853587962963,0.6227481706726111,0.7281750967659073,576,144
+22,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.6400334362139918,0.5813653700614837,0.7006759132975305,576,144
+22,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.31379012212255486,0.21878439545187725,0.4141249249541343,525,144
+22,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.65264892578125,0.5389577161116779,0.7567708919946742,576,144
+22,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.53596547314578,0.48292157334024727,0.5874886286003255,525,144
+22,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.5105733989197532,0.4560314906196493,0.5658006549456202,576,144
+22,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.6319122942386832,0.575704581409804,0.6948772364179009,576,144
+22,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.3611531395223171,0.2588731922254388,0.46235247634667737,525,144
+22,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.6603240966796875,0.5478237555539354,0.7620945785815646,576,144
+22,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.48210445245291794,0.4299324414892954,0.5296794303850121,525,144
+22,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.4963951581790123,0.4397659519962509,0.5489321395273002,576,144
+22,residual,incentive_sign_q05,objective incentive sign,all,0.9074202674897119,0.8698594939095459,0.9435265178982749,576,144
+22,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.7564573651788609,0.6635534659787987,0.8510464782007593,525,144
+22,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.801422119140625,0.7510087632940405,0.8572549737266101,576,144
+22,residual,literal_J_choice,literal J/P choice control,pure,1.0,0.9999999999999999,1.0,525,144
+22,residual,stimulus_control,strategically inert payoff control,all,0.7222222222222223,0.6667619675010978,0.7729350564758478,576,144
+24,router_gate,incentive_sign_q05,objective incentive sign,all,0.8516589506172839,0.8032430351086355,0.8930761546516754,576,144
+24,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.651194207284124,0.5764514887063655,0.7214403998778999,525,144
+24,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.749237060546875,0.6866109110802594,0.8104994397873292,576,144
+24,router_gate,literal_J_choice,literal J/P choice control,pure,1.0,0.9999999999999999,1.0,525,144
+24,router_gate,stimulus_control,strategically inert payoff control,all,0.6830753279320987,0.6356007675827412,0.7325241615313229,576,144
+24,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.6470871913580247,0.5931591348515923,0.7008425602175602,576,144
+24,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.45925645736517884,0.34926690373118946,0.5753677194308865,525,144
+24,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.64752197265625,0.5410458386568673,0.7493940890685116,576,144
+24,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.7831608928156243,0.7405526394168294,0.8221331857946638,525,144
+24,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.47685185185185186,0.4142807173686894,0.5384355774464009,576,144
+24,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.6172582304526749,0.5570663146134732,0.6817892651135797,576,144
+24,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.40648978709607697,0.3076853028906085,0.510781633395004,525,144
+24,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.6216583251953125,0.5185990466023205,0.722863513773911,576,144
+24,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.5642147175075564,0.5187351042954355,0.6104911172437212,525,144
+24,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.4451859085648148,0.3772396230618403,0.5115919315543203,576,144
+24,residual,incentive_sign_q05,objective incentive sign,all,0.8977880658436215,0.8589094951277922,0.9359032295938942,576,144
+24,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.7693720955365828,0.6950802754527865,0.834594494763232,525,144
+24,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.816375732421875,0.7688002788400135,0.8656889244869035,576,144
+24,residual,literal_J_choice,literal J/P choice control,pure,1.0,0.9999999999999999,1.0,525,144
+24,residual,stimulus_control,strategically inert payoff control,all,0.7160614390432097,0.6667737488028626,0.7655201252996743,576,144
+27,router_gate,incentive_sign_q05,objective incentive sign,all,0.8135673868312756,0.7646910578747627,0.8622656128570565,576,144
+27,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.6461147735869447,0.5515915206695771,0.7274014332922697,525,144
+27,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.742950439453125,0.6799185994963225,0.8051582801389786,576,144
+27,router_gate,literal_J_choice,literal J/P choice control,pure,1.0,0.9999999999999999,1.0,525,144
+27,router_gate,stimulus_control,strategically inert payoff control,all,0.6686197916666666,0.6240661458346053,0.7109951952151294,576,144
+27,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.5894290123456789,0.5376198308270677,0.6437665433973354,576,144
+27,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.46973954393169787,0.3694298050075661,0.5816780748795551,525,144
+27,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.714813232421875,0.6414638958551054,0.7916552516392298,576,144
+27,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.88947337828412,0.8576083239213188,0.9192657889656842,525,144
+27,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.41183207947530864,0.3449955571515953,0.4788596033957362,576,144
+27,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.5331082818930042,0.4694370799578078,0.594665623417607,576,144
+27,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.38998162758024424,0.2881980156034102,0.4951445229469847,525,144
+27,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.687652587890625,0.6147883384284418,0.7671664536724927,576,144
+27,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.6894980818414322,0.6444567543456364,0.7328868366948943,525,144
+27,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.4138997395833333,0.346683267451167,0.48080733345133997,576,144
+27,residual,incentive_sign_q05,objective incentive sign,all,0.9058641975308642,0.8657274350364349,0.9424758452172294,576,144
+27,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.6758889008970064,0.5631932995302827,0.7696783701789999,525,144
+27,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.7987060546875,0.7364764773053163,0.8570712223248415,576,144
+27,residual,literal_J_choice,literal J/P choice control,pure,1.0,0.9999999999999999,1.0,525,144
+27,residual,stimulus_control,strategically inert payoff control,all,0.6610604745370371,0.6104291726307628,0.7084179814494026,576,144
+30,router_gate,incentive_sign_q05,objective incentive sign,all,0.8365354938271605,0.7881380642489343,0.8828701119247881,576,144
+30,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.6469253215173458,0.5761867926973248,0.7138071984996603,525,144
+30,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.74127197265625,0.6713844968829792,0.809436031135851,576,144
+30,router_gate,literal_J_choice,literal J/P choice control,pure,1.0,0.9999999999999999,1.0,525,144
+30,router_gate,stimulus_control,strategically inert payoff control,all,0.5874083719135803,0.5342676424571805,0.6349144226536805,576,144
+30,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.5730066872427984,0.5175004133597885,0.6278854295580641,576,144
+30,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.4470442018804712,0.33666175313065977,0.5542353726662815,525,144
+30,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.616912841796875,0.5328659148583748,0.7074459760040702,576,144
+30,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.9457102999302487,0.9218171947787266,0.966020789037004,525,144
+30,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.4599609375,0.4009371250191637,0.5144664258182516,576,144
+30,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.5464956275720165,0.4875516659558665,0.6052373408116198,576,144
+30,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.4651194207284124,0.3667170572368909,0.5658914471208907,525,144
+30,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.636138916015625,0.5551586354667654,0.7223554854027732,576,144
+30,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.6941626947221575,0.6502240039921007,0.7359041868295552,525,144
+30,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.4640058352623456,0.4004302031116198,0.5256180041987334,576,144
+30,residual,incentive_sign_q05,objective incentive sign,all,0.9089891975308642,0.8693280244870297,0.9468314220649343,576,144
+30,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.7291148816600022,0.6498875142114031,0.8078301467457993,525,144
+30,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.7841796875,0.7319286591006707,0.83837890625,576,144
+30,residual,literal_J_choice,literal J/P choice control,pure,1.0,0.9999999999999999,1.0,525,144
+30,residual,stimulus_control,strategically inert payoff control,all,0.6449532214506173,0.5911079748535536,0.6914660786062047,576,144
+33,router_gate,incentive_sign_q05,objective incentive sign,all,0.8340406378600824,0.7814767669313843,0.8841672151902374,576,144
+33,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.6425483626931806,0.5512646820083406,0.7413609828489116,525,144
+33,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.773345947265625,0.7062060838560335,0.8380131112223774,576,144
+33,router_gate,literal_J_choice,literal J/P choice control,pure,1.0,0.9999999999999999,1.0,525,144
+33,router_gate,stimulus_control,strategically inert payoff control,all,0.6914303626543211,0.6492799824410748,0.7346478847644892,576,144
+33,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.6716435185185184,0.617238004498413,0.7299694253156096,576,144
+33,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.515940775964552,0.42260019499940565,0.6089205281869998,525,144
+33,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.657562255859375,0.5690843976088632,0.7489740118179017,576,144
+33,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.9419030458033015,0.9173704124955363,0.9621637724328729,525,144
+33,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.48945071373456794,0.4297526168451802,0.5480939233480768,576,144
+33,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.5387088477366255,0.4833838240078074,0.5969656791966401,576,144
+33,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.4569328866313629,0.36983238812348,0.5483728130703598,525,144
+33,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.644500732421875,0.5607670013260915,0.7344348713668539,576,144
+33,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.8169829690769588,0.782050128082814,0.8495860707925436,525,144
+33,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.49515335648148145,0.43640371033281733,0.5608271428670735,576,144
+33,residual,incentive_sign_q05,objective incentive sign,all,0.8929398148148148,0.8517156452494572,0.9319759759364603,576,144
+33,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.7089052199286716,0.6349186581644027,0.7804761842184308,525,144
+33,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.791656494140625,0.7399150426555071,0.8418132057891868,576,144
+33,residual,literal_J_choice,literal J/P choice control,pure,1.0,0.9999999999999999,1.0,525,144
+33,residual,stimulus_control,strategically inert payoff control,all,0.6459900655864197,0.5916463131165713,0.6976873562036572,576,144
+35,router_gate,incentive_sign_q05,objective incentive sign,all,0.8389789094650206,0.7918778783925158,0.8869229759774695,576,144
+35,router_gate,pure_canonical_choice,pure final-channel canonical choice,pure,0.6395763536150437,0.5549950821492997,0.7300230377924343,525,144
+35,router_gate,realized_canonical_choice,realized canonical choice incl mixed,all,0.7298583984375,0.6657746583481877,0.797960437926993,576,144
+35,router_gate,literal_J_choice,literal J/P choice control,pure,0.9960474308300395,0.9876530456075912,1.0,525,144
+35,router_gate,stimulus_control,strategically inert payoff control,all,0.5844907407407408,0.5308022469534001,0.6326787272824662,576,144
+35,router_topk_weight,incentive_sign_q05,objective incentive sign,all,0.6505658436213992,0.5928828719702984,0.7093258112127131,576,144
+35,router_topk_weight,pure_canonical_choice,pure final-channel canonical choice,pure,0.522479195936453,0.4093064399855821,0.6372138792205713,525,144
+35,router_topk_weight,realized_canonical_choice,realized canonical choice incl mixed,all,0.69775390625,0.6115148135611777,0.7807524757737914,576,144
+35,router_topk_weight,literal_J_choice,literal J/P choice control,pure,0.9861660079051384,0.9728242418304069,0.9948434028293643,525,144
+35,router_topk_weight,stimulus_control,strategically inert payoff control,all,0.4473078221450617,0.38679778412723786,0.50886484937417,576,144
+35,router_topk_binary,incentive_sign_q05,objective incentive sign,all,0.5496527777777778,0.4770338443911585,0.6241485761421647,576,144
+35,router_topk_binary,pure_canonical_choice,pure final-channel canonical choice,pure,0.5003512374365071,0.3740475871911515,0.6286905250190948,525,144
+35,router_topk_binary,realized_canonical_choice,realized canonical choice incl mixed,all,0.697235107421875,0.6145248243757746,0.7764515943881665,576,144
+35,router_topk_binary,literal_J_choice,literal J/P choice control,pure,0.61184172285515,0.5726846688120913,0.650759484622264,525,144
+35,router_topk_binary,stimulus_control,strategically inert payoff control,all,0.39788893711419754,0.3278158001954079,0.4703503022490794,576,144
+35,residual,incentive_sign_q05,objective incentive sign,all,0.9006815843621399,0.8625845588061122,0.937570222264571,576,144
+35,residual,pure_canonical_choice,pure final-channel canonical choice,pure,0.6845347454879498,0.5969174717152701,0.7702035372075657,525,144
+35,residual,realized_canonical_choice,realized canonical choice incl mixed,all,0.777069091796875,0.7242289745419127,0.8271049319866023,576,144
+35,residual,literal_J_choice,literal J/P choice control,pure,1.0,0.9999999999999999,1.0,525,144
+35,residual,stimulus_control,strategically inert payoff control,all,0.6260609567901234,0.5723405690027208,0.674573560120435,576,144

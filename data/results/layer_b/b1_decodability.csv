@@ -1,0 +1,25 @@
+model,probe,label,auc,lo,hi,n,n_games,base_rate,row_scope
+qwen_instruct,canonical_action,Canonical action,0.8658015868209072,0.826188983461109,0.9003405066485057,576,144,0.7256944444444444,parsed_generated_choice
+qwen_instruct,sign_delta1c,Incentive sign (Δ1c),0.868968621399177,0.8249464847820969,0.9088362448613382,576,144,0.625,all_p1_baseline_captures
+qwen_instruct,dominant_action_p1,Dominant action,0.997974537037037,0.9948375676914168,0.9997586919136399,288,72,0.5,all_p1_baseline_captures
+qwen_instruct,sign_delta2c,Opponent incentive (Δ2c),0.42703189300411526,0.36372748087761675,0.4870917165599183,576,144,0.625,all_p1_baseline_captures
+qwen_instruct,label_axis_J,Emitted label = J,0.9982707647682267,0.9966760103515662,0.9994169611901911,576,144,0.3159722222222222,parsed_generated_choice
+qwen_instruct,stim_control_cell00,"Stimulus control (cell(0,0) rank)",0.8342737268518517,0.8045914879915306,0.8610528042097507,576,144,,all_p1_baseline_captures
+qwen,canonical_action,Canonical action,0.8267197522671974,0.787021216487273,0.8626702568910742,576,144,0.7135416666666666,parsed_generated_choice
+qwen,sign_delta1c,Incentive sign (Δ1c),0.8470164609053499,0.8031103232573905,0.8865427267158194,576,144,0.625,all_p1_baseline_captures
+qwen,dominant_action_p1,Dominant action,0.9992283950617284,0.9974127276532062,1.0,288,72,0.5,all_p1_baseline_captures
+qwen,sign_delta2c,Opponent incentive (Δ2c),0.4893389917695473,0.4281724881753594,0.5506727018764495,576,144,0.625,all_p1_baseline_captures
+qwen,label_axis_J,Emitted label = J,0.9962874900930213,0.9936031342025892,0.9982713549502114,576,144,0.3177083333333333,parsed_generated_choice
+qwen,stim_control_cell00,"Stimulus control (cell(0,0) rank)",0.8017171223958334,0.7677879565560397,0.8332514798125744,576,144,,all_p1_baseline_captures
+llama31_instruct,canonical_action,Canonical action,0.7869953051643193,0.7406622149835375,0.8302007854253403,576,144,0.7395833333333334,parsed_generated_choice
+llama31_instruct,sign_delta1c,Incentive sign (Δ1c),0.7674639917695474,0.7165254237288136,0.8192712017621183,576,144,0.625,all_p1_baseline_captures
+llama31_instruct,dominant_action_p1,Dominant action,0.9998553240740741,0.9994172494172494,1.0,288,72,0.5,all_p1_baseline_captures
+llama31_instruct,sign_delta2c,Opponent incentive (Δ2c),0.4616512345679013,0.39678894276819926,0.5266909630364491,576,144,0.625,all_p1_baseline_captures
+llama31_instruct,label_axis_J,Emitted label = J,0.9950156322074727,0.99122793064919,0.99773513630869,576,144,0.3784722222222222,parsed_generated_choice
+llama31_instruct,stim_control_cell00,"Stimulus control (cell(0,0) rank)",0.8294180410879628,0.7963285497306858,0.8610014303838573,576,144,,all_p1_baseline_captures
+gptoss,canonical_action,Canonical action,0.8024424510969415,0.7299302944654997,0.8668429440741814,525,144,0.9276190476190476,pure_commitment
+gptoss,sign_delta1c,Incentive sign (Δ1c),0.8944958847736626,0.8534457654599469,0.9295601222826085,576,144,0.625,all_p1_baseline_captures
+gptoss,dominant_action_p1,Dominant action,0.6660397376543211,0.59717139316177,0.7353919746823392,288,72,0.5,all_p1_baseline_captures
+gptoss,sign_delta2c,Opponent incentive (Δ2c),0.5513760288065843,0.5007000200945918,0.6037265377049444,576,144,0.625,all_p1_baseline_captures
+gptoss,label_axis_J,Emitted label = J,1.0,0.9999999999999999,1.0,525,144,0.4819047619047619,pure_commitment
+gptoss,stim_control_cell00,"Stimulus control (cell(0,0) rank)",0.5667815031828703,0.5321006211088645,0.6014888570038496,576,144,,all_p1_baseline_captures

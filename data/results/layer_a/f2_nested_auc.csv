@@ -1,0 +1,9 @@
+analysis_set,analysis_label,step,step_label,auc,ci_lo,ci_hi,delta_prev,n_games,n_rows,models
+dense_primary,dense primary,M0,model identity,0.490568367594168,0.46345029606579385,0.5187914069640883,,144,11993,"qwen,qwen_instruct,llama31_instruct"
+dense_primary,dense primary,M1,+ structure,0.6816755541789687,0.6513613171292889,0.710575522312298,0.19110718658480075,144,11993,"qwen,qwen_instruct,llama31_instruct"
+dense_primary,dense primary,M2,+ trait,0.7183714441803042,0.6893939431658912,0.7465660541664604,0.03669589000133544,144,11993,"qwen,qwen_instruct,llama31_instruct"
+dense_primary,dense primary,M3,+ structure x trait,0.7462919349199828,0.722205900706309,0.7702413166499197,0.027920490739678616,144,11993,"qwen,qwen_instruct,llama31_instruct"
+gptoss_full,GPT-OSS full corrected-root sample,M0,model identity,0.45739075029705356,0.399447562492029,0.5220284785736088,,144,4029,gptoss
+gptoss_full,GPT-OSS full corrected-root sample,M1,+ structure,0.787247319957654,0.7405219426920291,0.822690102931949,0.3298565696606004,144,4029,gptoss
+gptoss_full,GPT-OSS full corrected-root sample,M2,+ trait,0.8317073630744983,0.8011345377734395,0.8577509137210556,0.04446004311684437,144,4029,gptoss
+gptoss_full,GPT-OSS full corrected-root sample,M3,+ structure x trait,0.9050910759284513,0.8834910911011518,0.923897467101229,0.07338371285395295,144,4029,gptoss
