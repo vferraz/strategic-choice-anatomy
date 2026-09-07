@@ -21,6 +21,23 @@ PY="${PY:-uv run python}"
 NO_HEAVY="${NO_HEAVY:-0}"
 TIER1_ONLY="${TIER1_ONLY:-0}"
 
+# Portable mtime. BSD stat spells modification time `-f %m`; on GNU stat `-f` means
+# --file-system and prints filesystem info instead, so the freshness comparison below fed
+# `[` a string like "Inodes: Total: ..." and every figure was misreported as RAN-NO-PDF on
+# Linux CI. Try GNU first, fall back to BSD, and yield 0 for anything unreadable.
+mtime() { stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null || echo 0; }
+
+# Newest mtime among analysis/**/<name>, or 0 when nothing matches -- same semantics the
+# `find ... -exec stat ... | sort -rn | head -1` pipeline had, minus the BSD dependency.
+newest_mtime() {
+  local newest=0 f m
+  while IFS= read -r f; do
+    m=$(mtime "$f")
+    [ "$m" -gt "$newest" ] && newest="$m"
+  done < <(find analysis -name "$1" -type f 2>/dev/null)
+  printf '%s\n' "$newest"
+}
+
 # figure pdf | producer | tier
 #   tier1 = committed tables only (rebuilds from a clean clone)
 #   heavy = additionally needs the released deposit under $SCA_DATA_ROOT
@@ -80,14 +97,12 @@ for entry in "${PRODUCERS[@]}"; do
 
   # Record the pre-existing output so a stale PDF from an earlier run cannot be counted as a
   # fresh build. The original script computed this and then never used it.
-  before=$(find analysis -name "$pdf" -type f -exec stat -f '%m' {} \; 2>/dev/null | sort -rn | head -1)
-  before="${before:-0}"
+  before=$(newest_mtime "$pdf")
 
   logfile="$LOG/$(basename "$script").log"
   if $PY "$script" >"$logfile" 2>&1; then rc=0; else rc=1; fi
 
-  after=$(find analysis -name "$pdf" -type f -exec stat -f '%m' {} \; 2>/dev/null | sort -rn | head -1)
-  after="${after:-0}"
+  after=$(newest_mtime "$pdf")
   built=0
   [ "$rc" -eq 0 ] && [ "$after" -gt "$before" ] && built=1
 
