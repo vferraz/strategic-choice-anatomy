@@ -1,0 +1,33 @@
+{
+  "method": "unit(d - (d.ell)ell), ell = norm.weight * (W_U[' J'] - W_U[' P']) unit-normalized",
+  "lm_key": "lm_head.weight",
+  "jp_token_ids": {
+    "J": 619,
+    "P": 393
+  },
+  "base_npz": "analysis/block_b/tables/causal_oneshot/directions_akata/qwen/directions.npz",
+  "git_commit": "7445b0059b36b60742cd7d7daad1328a8a7aa8cd",
+  "created_at": "2026-07-02T16:33:01+00:00",
+  "per_direction": {
+    "d_inc_l65": {
+      "cos_removed": 0.022083,
+      "residual_norm_before_renorm": 0.999756,
+      "check_cos_after": -1.4e-08
+    },
+    "d_inc_l79": {
+      "cos_removed": 0.109151,
+      "residual_norm_before_renorm": 0.994025,
+      "check_cos_after": 4e-08
+    },
+    "d_choice_perp_l65": {
+      "cos_removed": -0.00527,
+      "residual_norm_before_renorm": 0.999986,
+      "check_cos_after": 0.0
+    },
+    "d_choice_perp_l79": {
+      "cos_removed": -0.025626,
+      "residual_norm_before_renorm": 0.999672,
+      "check_cos_after": 2e-09
+    }
+  }
+}

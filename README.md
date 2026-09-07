@@ -27,10 +27,21 @@ as a data deposit.
 ## Install
 
 ```bash
+# Tier 1 + 2 — figures and tables, no GPU
 uv venv --python 3.11
-uv pip install -e ".[analysis,dev]"       # Tier 1 + 2: figures and tables, no GPU
-uv pip install -e ".[analysis,gpu,dev]"   # Tier 3: adds torch/transformers for collection
+uv pip install -e ".[analysis,dev]"
 ```
+
+Tier 3 (re-collecting the substrate or re-running the steering) needs a **separate environment on
+Python 3.12** — the pinned `torch 2.11.0` ships as a `cp312` wheel on the reference hardware:
+
+```bash
+uv venv --python 3.12 .venv
+uv pip install -e ".[analysis,gpu,dev]"          # dense collection + steering
+uv pip install -e ".[analysis,gpu,gptoss,dev]"   # GPT-OSS (into a separate .venv_gptoss)
+```
+
+See `docs/ENVIRONMENTS.md` for the exact pins, the hardware, and why the arms differ.
 
 See [`docs/ENVIRONMENTS.md`](docs/ENVIRONMENTS.md) for the GPU and GPT-OSS environments.
 

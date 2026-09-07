@@ -1,0 +1,156 @@
+{
+  "method": "unit(d_perm - (d_perm.ell)ell); d_perm = fit_d_inc on ACROSS-GAME game-level permuted delta1_c (sign-aligned to permuted target); ell = norm.weight * (W_U[' J'] - W_U[' P']) unit-normalized (checkpoint bf16->fp32).",
+  "model": "qwen_instruct",
+  "repo": "Qwen/Qwen2.5-72B-Instruct",
+  "git_commit": "0cc7ab0d9c4dfe3edc030d46d97328eb77d0293e",
+  "created_at": "2026-07-08T11:18:06+00:00",
+  "layers": [
+    65,
+    79
+  ],
+  "n_fit_games": 144,
+  "corr_threshold": 0.15,
+  "within_family_dropped": "Step-0 gate: median|cos(within-fam d_perm,d_inc_true)|>0.6 all models/layers -> across-game is the only permuted control.",
+  "jp_token_ids": {
+    "J": 619,
+    "P": 393
+  },
+  "ell_validation_vs_committed_perp_manifest": {
+    "d_inc_l65": {
+      "my_cos": 0.04470030450179308,
+      "manifest_cos_removed": 0.0447,
+      "abs_diff": 3.045017930858318e-07
+    },
+    "d_inc_l79": {
+      "my_cos": 0.18069648462719162,
+      "manifest_cos_removed": 0.180696,
+      "abs_diff": 4.846271916270073e-07
+    }
+  },
+  "slots": {
+    "perm0": {
+      "seed": 1,
+      "corr_yperm_y": -0.12394419070262151
+    },
+    "perm1": {
+      "seed": 2,
+      "corr_yperm_y": -0.1329537633735845
+    },
+    "perm2": {
+      "seed": 3,
+      "corr_yperm_y": -0.022586498154288925
+    }
+  },
+  "seed_search_log": [
+    {
+      "seed": 0,
+      "corr": -0.15547769505099182,
+      "accepted": false
+    },
+    {
+      "seed": 1,
+      "corr": -0.12394419070262151,
+      "accepted": true
+    },
+    {
+      "seed": 2,
+      "corr": -0.1329537633735845,
+      "accepted": true
+    },
+    {
+      "seed": 3,
+      "corr": -0.022586498154288925,
+      "accepted": true
+    }
+  ],
+  "per_direction": {
+    "d_inc_perm0_l65": {
+      "slot": 0,
+      "seed": 1,
+      "layer": 65,
+      "corr_yperm_y": -0.12394419070262151,
+      "cos_dperm_dinc_true": -0.16908946126813912,
+      "cos_removed_ell": -0.04432445601199024,
+      "perp_norm_before_renorm": 0.9990171883402419,
+      "cos_perm_perp_ell": 6.288372600415926e-17,
+      "cos_perm_perp_dinc_true": -0.16727254199215405,
+      "norm": 0.9999999403953552
+    },
+    "d_inc_perm0_l79": {
+      "slot": 0,
+      "seed": 1,
+      "layer": 79,
+      "corr_yperm_y": -0.12394419070262151,
+      "cos_dperm_dinc_true": -0.38253527168942997,
+      "cos_removed_ell": -0.08992251083052169,
+      "perp_norm_before_renorm": 0.9959487647695209,
+      "cos_perm_perp_ell": -4.9873299934333204e-18,
+      "cos_perm_perp_dinc_true": -0.3677765393667302,
+      "norm": 1.0
+    },
+    "d_inc_perm1_l65": {
+      "slot": 1,
+      "seed": 2,
+      "layer": 65,
+      "corr_yperm_y": -0.1329537633735845,
+      "cos_dperm_dinc_true": 0.12879777936750325,
+      "cos_removed_ell": 0.048923324753893424,
+      "perp_norm_before_renorm": 0.9988025371889211,
+      "cos_perm_perp_ell": 2.0816681711721685e-17,
+      "cos_perm_perp_dinc_true": 0.12676268545542946,
+      "norm": 1.0
+    },
+    "d_inc_perm1_l79": {
+      "slot": 1,
+      "seed": 2,
+      "layer": 79,
+      "corr_yperm_y": -0.1329537633735845,
+      "cos_dperm_dinc_true": 0.2602624859275088,
+      "cos_removed_ell": 0.18434270811930653,
+      "perp_norm_before_renorm": 0.9828620279384287,
+      "cos_perm_perp_ell": -1.929879867024198e-17,
+      "cos_perm_perp_dinc_true": 0.23090973112444937,
+      "norm": 0.9999999403953552
+    },
+    "d_inc_perm2_l65": {
+      "slot": 2,
+      "seed": 3,
+      "layer": 65,
+      "corr_yperm_y": -0.022586498154288925,
+      "cos_dperm_dinc_true": -0.02701389828094736,
+      "cos_removed_ell": -0.017540440229941928,
+      "perp_norm_before_renorm": 0.9998461546440729,
+      "cos_perm_perp_ell": -1.734723475976807e-18,
+      "cos_perm_perp_dinc_true": -0.02623387122082881,
+      "norm": 1.0
+    },
+    "d_inc_perm2_l79": {
+      "slot": 2,
+      "seed": 3,
+      "layer": 79,
+      "corr_yperm_y": -0.022586498154288925,
+      "cos_dperm_dinc_true": -0.03285468465267862,
+      "cos_removed_ell": -0.05554198196680686,
+      "perp_norm_before_renorm": 0.9984563526961004,
+      "cos_perm_perp_ell": 9.974659986866641e-18,
+      "cos_perm_perp_dinc_true": -0.02285372184816473,
+      "norm": 1.0
+    }
+  },
+  "direction_keys": [
+    "d_inc_perm0_l65",
+    "d_inc_perm0_l79",
+    "d_inc_perm1_l65",
+    "d_inc_perm1_l79",
+    "d_inc_perm2_l65",
+    "d_inc_perm2_l79"
+  ],
+  "vector_norms": {
+    "d_inc_perm0_l65": 0.9999999403953552,
+    "d_inc_perm0_l79": 1.0,
+    "d_inc_perm1_l65": 1.0,
+    "d_inc_perm1_l79": 0.9999999403953552,
+    "d_inc_perm2_l65": 1.0,
+    "d_inc_perm2_l79": 1.0
+  }
+}

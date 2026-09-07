@@ -123,13 +123,22 @@ def run(model_key, modes, layers, n_games, out_root):
 
 
 def main():
+    global DIRS_ROOT, DIRS_PERP
     p = argparse.ArgumentParser()
     p.add_argument("--model", required=True, choices=("qwen", "qwen_instruct", "llama31_instruct"))
     p.add_argument("--modes", default=",".join(MODES_SD))
     p.add_argument("--layers", default=",".join(str(x) for x in LAYERS_SD))
     p.add_argument("--n-games", type=int, default=0)
     p.add_argument("--out-root", default=str(OUT_ROOT_SD))
+    p.add_argument("--dirs-root", default=str(DIRS_ROOT),
+                   help="main-direction npz root (default empirical akata; pass "
+                        "$SCA_DATA_ROOT/steering/directions/akata_q05 for the q=0.5 redo).")
+    p.add_argument("--dirs-perp", default=str(DIRS_PERP),
+                   help="letter-\u27c2 (main_perp) npz root; pass .../akata_q05_perp for the q05 redo.")
     a = p.parse_args()
+    DIRS_ROOT = Path(a.dirs_root); DIRS_PERP = Path(a.dirs_perp)
+    print(f"[steer-sd] dirs_root={DIRS_ROOT.name} dirs_perp={DIRS_PERP.name} "
+          f"out_root={Path(a.out_root).name}", flush=True)
     run(a.model, a.modes.split(","), [int(x) for x in a.layers.split(",")], a.n_games, Path(a.out_root))
 
 

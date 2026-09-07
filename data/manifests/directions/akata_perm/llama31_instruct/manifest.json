@@ -1,0 +1,151 @@
+{
+  "method": "unit(d_perm - (d_perm.ell)ell); d_perm = fit_d_inc on ACROSS-GAME game-level permuted delta1_c (sign-aligned to permuted target); ell = norm.weight * (W_U[' J'] - W_U[' P']) unit-normalized (checkpoint bf16->fp32).",
+  "model": "llama31_instruct",
+  "repo": "meta-llama/Meta-Llama-3.1-70B-Instruct",
+  "git_commit": "0cc7ab0d9c4dfe3edc030d46d97328eb77d0293e",
+  "created_at": "2026-07-08T11:18:07+00:00",
+  "layers": [
+    65,
+    79
+  ],
+  "n_fit_games": 144,
+  "corr_threshold": 0.15,
+  "within_family_dropped": "Step-0 gate: median|cos(within-fam d_perm,d_inc_true)|>0.6 all models/layers -> across-game is the only permuted control.",
+  "jp_token_ids": {
+    "J": 622,
+    "P": 393
+  },
+  "ell_validation_vs_committed_perp_manifest": {
+    "d_inc_l65": {
+      "my_cos": 0.03643747665616338,
+      "manifest_cos_removed": 0.036437,
+      "abs_diff": 4.766561633798294e-07
+    },
+    "d_inc_l79": {
+      "my_cos": 0.12771575709397562,
+      "manifest_cos_removed": 0.127716,
+      "abs_diff": 2.429060243780423e-07
+    }
+  },
+  "slots": {
+    "perm0": {
+      "seed": 0,
+      "corr_yperm_y": -0.132398419650859
+    },
+    "perm1": {
+      "seed": 1,
+      "corr_yperm_y": -0.09968064829658058
+    },
+    "perm2": {
+      "seed": 2,
+      "corr_yperm_y": -0.14330434343561846
+    }
+  },
+  "seed_search_log": [
+    {
+      "seed": 0,
+      "corr": -0.132398419650859,
+      "accepted": true
+    },
+    {
+      "seed": 1,
+      "corr": -0.09968064829658058,
+      "accepted": true
+    },
+    {
+      "seed": 2,
+      "corr": -0.14330434343561846,
+      "accepted": true
+    }
+  ],
+  "per_direction": {
+    "d_inc_perm0_l65": {
+      "slot": 0,
+      "seed": 0,
+      "layer": 65,
+      "corr_yperm_y": -0.132398419650859,
+      "cos_dperm_dinc_true": -0.577411799533305,
+      "cos_removed_ell": -0.0049494653683742115,
+      "perp_norm_before_renorm": 0.9999877513212684,
+      "cos_perm_perp_ell": -1.9081958235744878e-17,
+      "cos_perm_perp_dinc_true": -0.5772385239137161,
+      "norm": 1.0
+    },
+    "d_inc_perm0_l79": {
+      "slot": 0,
+      "seed": 0,
+      "layer": 79,
+      "corr_yperm_y": -0.132398419650859,
+      "cos_dperm_dinc_true": -0.512568557401909,
+      "cos_removed_ell": 0.013181030190414503,
+      "perp_norm_before_renorm": 0.9999131264480523,
+      "cos_perm_perp_ell": 1.6479873021779667e-17,
+      "cos_perm_perp_dinc_true": -0.5142966614296897,
+      "norm": 0.9999998807907104
+    },
+    "d_inc_perm1_l65": {
+      "slot": 1,
+      "seed": 1,
+      "layer": 65,
+      "corr_yperm_y": -0.09968064829658058,
+      "cos_dperm_dinc_true": -0.463558520417233,
+      "cos_removed_ell": -0.06610047853871301,
+      "perp_norm_before_renorm": 0.9978129718223515,
+      "cos_perm_perp_ell": -5.637851296924623e-18,
+      "cos_perm_perp_dinc_true": -0.4621607443440007,
+      "norm": 1.0
+    },
+    "d_inc_perm1_l79": {
+      "slot": 1,
+      "seed": 1,
+      "layer": 79,
+      "corr_yperm_y": -0.09968064829658058,
+      "cos_dperm_dinc_true": -0.39312937529668157,
+      "cos_removed_ell": -0.12428569329325692,
+      "perp_norm_before_renorm": 0.9922464746435812,
+      "cos_perm_perp_ell": -4.466912950640278e-17,
+      "cos_perm_perp_dinc_true": -0.3802040556680183,
+      "norm": 0.9999998807907104
+    },
+    "d_inc_perm2_l65": {
+      "slot": 2,
+      "seed": 2,
+      "layer": 65,
+      "corr_yperm_y": -0.14330434343561846,
+      "cos_dperm_dinc_true": -0.15826567352966445,
+      "cos_removed_ell": 0.010261090224516265,
+      "perp_norm_before_renorm": 0.9999473536278821,
+      "cos_perm_perp_ell": -3.3393426912553537e-17,
+      "cos_perm_perp_dinc_true": -0.15864791400230327,
+      "norm": 0.9999999403953552
+    },
+    "d_inc_perm2_l79": {
+      "slot": 2,
+      "seed": 2,
+      "layer": 79,
+      "corr_yperm_y": -0.14330434343561846,
+      "cos_dperm_dinc_true": -0.2164071209067818,
+      "cos_removed_ell": 0.030730219865903435,
+      "perp_norm_before_renorm": 0.9995277152670622,
+      "cos_perm_perp_ell": -4.336808689942018e-18,
+      "cos_perm_perp_dinc_true": -0.22043596274241334,
+      "norm": 1.0
+    }
+  },
+  "direction_keys": [
+    "d_inc_perm0_l65",
+    "d_inc_perm0_l79",
+    "d_inc_perm1_l65",
+    "d_inc_perm1_l79",
+    "d_inc_perm2_l65",
+    "d_inc_perm2_l79"
+  ],
+  "vector_norms": {
+    "d_inc_perm0_l65": 1.0,
+    "d_inc_perm0_l79": 0.9999998807907104,
+    "d_inc_perm1_l65": 1.0,
+    "d_inc_perm1_l79": 0.9999998807907104,
+    "d_inc_perm2_l65": 0.9999999403953552,
+    "d_inc_perm2_l79": 1.0
+  }
+}

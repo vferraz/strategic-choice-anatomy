@@ -22,6 +22,10 @@ unembedding matrix.
 
 delta1_c / delta2_c use PLAYER-SPECIFIC empirical q-hat from the NEW one-shot
 baselines (a player's q-hat is its opponent's act0 rate). No old behavioral data.
+That is the --belief empirical default. --belief q05 instead uses the uniform,
+opponent-agnostic q = 0.5 that behaviour, decoding and lambda use (Layer 1), so the
+steering target is the SAME construct as the rest of the paper; it is the arm the
+paper reports. See docs/METHODS.md and the incentive_belief field in the manifest.
 """
 from __future__ import annotations
 
@@ -200,11 +204,17 @@ def verify_prompt_alignment(model: str, mv: pd.DataFrame) -> dict:
 
 
 def build_delta_tables(model: str, canon1: dict, canon2: dict,
-                       gen_qhat_p1=None, gen_qhat_p2=None) -> pd.DataFrame:
-    """Per-game canonical-signed incentive gaps with player-specific hard q-hat (§6).
+                       gen_qhat_p1=None, gen_qhat_p2=None, belief: str = "empirical") -> pd.DataFrame:
+    """Per-game canonical-signed incentive gaps.
+
+    belief='empirical' (default, §6): player-specific hard q-hat (a player's q-hat is its
+    opponent's act0 rate). belief='q05': uniform q=0.5 for BOTH players — the objective,
+    opponent-agnostic incentive used by behaviour/decoding/λ (Layer 1). Use 'q05' to make the
+    steering target the SAME construct as the rest of the paper (reviewer construct-identity fix).
 
     With gen_qhat_* (from the corrected generation moves) q̂ is the committed move's act0
-    rate; otherwise it falls back to the substrate slot-argmax `decoded_action` (legacy)."""
+    rate; otherwise it falls back to the substrate slot-argmax `decoded_action` (legacy).
+    q̂ is still recorded in both cases — only its use in delta1/delta2 changes."""
     if gen_qhat_p1 is not None:
         qhat_p1, qhat_p2 = gen_qhat_p1, gen_qhat_p2
     else:
@@ -219,8 +229,10 @@ def build_delta_tables(model: str, canon1: dict, canon2: dict,
     for g in sorted(set(qhat_p1.index) & set(qhat_p2.index)):
         vec = load_game_vec(g)
         c1 = canon1.get(g); c2 = canon2.get(g)
-        d1 = delta1(vec, qhat_p2[g])              # P1's incentive; belief = P2 act0 rate
-        d2 = delta2(vec, qhat_p1[g])              # P2's incentive; belief = P1 act0 rate
+        q2 = 0.5 if belief == "q05" else qhat_p2[g]   # P1's belief about P2
+        q1 = 0.5 if belief == "q05" else qhat_p1[g]   # P2's belief about P1
+        d1 = delta1(vec, q2)                      # P1's incentive
+        d2 = delta2(vec, q1)                      # P2's incentive
         d1c = canonical_sign(d1, c1) if c1 is not None else np.nan
         d2c = canonical_sign(d2, c2) if c2 is not None else np.nan
         rows.append({"game_code": g, "q_hat_p1": qhat_p1[g], "q_hat_p2": qhat_p2[g],
@@ -446,6 +458,9 @@ def main():
     p.add_argument("--models", default=",".join(MODELS))
     p.add_argument("--out-root", default=str(DIR_ROOT))
     p.add_argument("--preflight-only", action="store_true")
+    p.add_argument("--belief", choices=("empirical", "q05"), default="empirical",
+                   help="incentive belief basis: 'empirical' (player-specific q-hat, default/legacy) "
+                        "or 'q05' (uniform 0.5, matches behaviour/decoding — construct-identity fix).")
     p.add_argument("--moves-root", default="",
                    help="re-point q̂ + d_choice to the corrected generation moves under "
                         "{moves-root}/{model}/{game}/moves.parquet (SPEC_oneshot_FINAL §9). "
@@ -514,8 +529,12 @@ def main():
             print(f"[{model}] decoder=generation_moves; prompt_alignment "
                   f"{decoder_info.get('checked')} checked / {decoder_info.get('mismatch')} mismatch; "
                   f"q-hat games p1={gen_qhat_p1.size} p2={gen_qhat_p2.size}")
-        deltas = build_delta_tables(model, canon1, canon2, gen_qhat_p1, gen_qhat_p2)
-        deltas.to_csv(SUMMARY_DIR / f"delta_tables_{model}.csv", index=False)
+        deltas = build_delta_tables(model, canon1, canon2, gen_qhat_p1, gen_qhat_p2, belief=args.belief)
+        # NEVER overwrite the committed empirical table with a different construct. Non-default
+        # belief writes a SUFFIXED file so each filename means exactly one thing.
+        _dt_suffix = "" if args.belief == "empirical" else f"_{args.belief}"
+        SUMMARY_DIR.mkdir(parents=True, exist_ok=True)
+        deltas.to_csv(SUMMARY_DIR / f"delta_tables_{model}{_dt_suffix}.csv", index=False)
         d1c_by_game = dict(zip(deltas["game_code"], deltas["delta1_c"]))
         d2c_by_game = dict(zip(deltas["game_code"], deltas["delta2_c"]))
 
@@ -588,6 +607,7 @@ def main():
             "capture_layers": capture_layers, "steer_layers": steer_layers, "hidden_dim": hidden,
             "n_games_substrate": n_games_done, "direction_keys": sorted(directions),
             "data_root": str(SUBSTRATE_ROOT / model),
+            "incentive_belief": args.belief,   # 'empirical' (q-hat) or 'q05' (uniform) — record, never assume
             "decoder": decoder_info,
             "per_direction": diag,
             "vector_norms": {k: float(np.linalg.norm(v)) for k, v in directions.items()},

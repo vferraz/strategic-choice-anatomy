@@ -117,13 +117,19 @@ def run(model_key, modes, layers, n_games, out_root):
 
 
 def main():
+    global DIRS_PERM_ARM
     p = argparse.ArgumentParser()
     p.add_argument("--model", required=True, choices=("qwen", "qwen_instruct", "llama31_instruct"))
     p.add_argument("--modes", default=",".join(MODES_PERM))
     p.add_argument("--layers", default=",".join(str(x) for x in LAYERS_PERM))
     p.add_argument("--n-games", type=int, default=0)
     p.add_argument("--out-root", default=str(OUT_ROOT_PERM))
+    p.add_argument("--dirs-perm", default=str(DIRS_PERM_ARM),
+                   help="permuted-control npz root (default empirical akata_perm; pass "
+                        "$SCA_DATA_ROOT/steering/directions/akata_q05_perm for the q=0.5 redo).")
     a = p.parse_args()
+    DIRS_PERM_ARM = Path(a.dirs_perm)
+    print(f"[steer-perm] dirs_perm={DIRS_PERM_ARM.name} out_root={Path(a.out_root).name}", flush=True)
     run(a.model, a.modes.split(","), [int(x) for x in a.layers.split(",")], a.n_games, Path(a.out_root))
 
 

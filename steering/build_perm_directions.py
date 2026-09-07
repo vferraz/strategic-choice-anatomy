@@ -46,6 +46,9 @@ DIRS = steering_root() / "directions" / "akata"
 DIRS_PERP = steering_root() / "directions" / "akata_perp"
 DELTA = results_root() / "steering" / "summary"
 OUT = steering_root() / "directions" / "akata_perm"
+# "" = the empirical delta_tables_{model}.csv; "_q05" = the q=0.5 construct-identity target.
+# Override with --delta-suffix; the chosen basis is recorded in the manifest.
+DELTA_SUFFIX = ""
 
 
 def _unit(v):
@@ -124,11 +127,32 @@ def validate_ell(model, ellhat):
 
 
 def main():
+    global DIRS, DIRS_PERP, OUT, DELTA_SUFFIX, MODELS
+    import argparse
+    p = argparse.ArgumentParser(description=__doc__,
+                                formatter_class=argparse.RawDescriptionHelpFormatter,
+                                epilog="CPU-only. Default writes "
+                                       "$SCA_DATA_ROOT/steering/directions/akata_perm/.")
+    p.add_argument("--dirs", default=str(DIRS),
+                   help="true-direction npz root the control is matched against "
+                        "(pass .../akata_q05 for the q=0.5 redo).")
+    p.add_argument("--dirs-perp", default=str(DIRS_PERP),
+                   help="letter-\u27c2 root used to validate ell (pass .../akata_q05_perp for q05).")
+    p.add_argument("--out", default=str(OUT), help="output root for the permuted directions.")
+    p.add_argument("--delta-suffix", default=DELTA_SUFFIX,
+                   help="'' = empirical delta_tables_{model}.csv; '_q05' = the q=0.5 target table.")
+    p.add_argument("--models", default=",".join(MODELS))
+    a = p.parse_args()
+    DIRS, DIRS_PERP, OUT = Path(a.dirs), Path(a.dirs_perp), Path(a.out)
+    DELTA_SUFFIX = a.delta_suffix
+    MODELS = tuple(x.strip() for x in a.models.split(",") if x.strip())
+    print(f"[perm-build] dirs={DIRS.name} dirs_perp={DIRS_PERP.name} out={OUT.name} "
+          f"delta_suffix={DELTA_SUFFIX!r} models={','.join(MODELS)}", flush=True)
     OUT.mkdir(parents=True, exist_ok=True)
     commit = _git_commit()
     for model in MODELS:
         games, X, meta = _load_X_meta(model, LAYERS)
-        dt_df = pd.read_csv(DELTA / f"delta_tables_{model}.csv")
+        dt_df = pd.read_csv(DELTA / f"delta_tables_{model}{DELTA_SUFFIX}.csv")
         d1c = dict(zip(dt_df["game_code"], dt_df["delta1_c"]))
         base_y = np.array([d1c[g] for g in games], dtype=np.float64)
         ellhat, jid, pid = build_ell_hat(model)
@@ -190,6 +214,10 @@ def main():
             "model": model, "repo": REPO[model], "git_commit": commit,
             "created_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
             "layers": list(LAYERS), "n_fit_games": len(games),
+            # Which incentive construct the permuted control was refit against — record, never assume.
+            "incentive_belief": "q05" if DELTA_SUFFIX == "_q05" else "empirical",
+            "delta_suffix": DELTA_SUFFIX,
+            "dirs_root": str(DIRS),
             "corr_threshold": CORR_THRESH,
             "within_family_dropped": "Step-0 gate: median|cos(within-fam d_perm,d_inc_true)|>0.6 all "
                                      "models/layers -> across-game is the only permuted control.",
@@ -216,12 +244,7 @@ def main():
 
 
 if __name__ == "__main__":
-    # phase-4: see collection/preflight_dense.py — the parser accepts no arguments, so a bare
-    # run is unchanged; it exists so --help prints help instead of starting the job.
-    import argparse
-    argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="Takes no options. CPU-only; writes $SCA_DATA_ROOT/steering/directions/akata_perm/.",
-    ).parse_args()
+    # phase-4 added a no-argument parser here purely so --help printed help instead of starting
+    # the job. main() now owns a real parser (phase-6: the q05 target), so this must NOT parse
+    # as well — a second no-argument parse rejects every option before main() ever sees it.
     main()

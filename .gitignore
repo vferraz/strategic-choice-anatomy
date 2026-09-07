@@ -3,6 +3,10 @@
 # --------------------------------------------------------------------------
 data_heavy/
 
+# Deposit staging area. Assembled on the collection machine (Phase 6) and uploaded to
+# Zenodo (Phase 7); the tracked copies of anything small enough to ship live under data/.
+_deposit/
+
 # --------------------------------------------------------------------------
 # Third-party raw human data. NEVER tracked: it belongs to the source studies
 # and is not ours to redistribute. Developers typically symlink the two

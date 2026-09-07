@@ -46,18 +46,28 @@ analysis = [
 ]
 
 # Tier 3: re-collect the substrate. bitsandbytes 8-bit loading is CUDA/Linux only.
+# PINNED, not floored (Phase 6, 2026-09-07): these are the exact versions the released
+# substrate and the q=0.5 steering arm were produced under, read from the live `.venv` on
+# the DGX Spark. transformers is version-sensitive in two documented places — the forward
+# hook semantics behind the injection-depth off-by-one, and the harmony chat-template
+# `Current date:` line — so a floor here would silently change the intervention. See
+# docs/ENVIRONMENTS.md for the full freeze and the platform notes.
 gpu = [
-    "torch>=2.1.0",
-    "transformers>=4.38.0",
-    "accelerate>=0.25.0",
-    "bitsandbytes>=0.42.0; sys_platform == 'linux'",
+    "torch==2.11.0",
+    "transformers==5.5.0",
+    "accelerate==1.13.0",
+    "tokenizers==0.22.2",
+    "safetensors==0.7.0",
+    "bitsandbytes==0.49.2; sys_platform == 'linux'",
 ]
 
-# GPT-OSS MXFP4 kernel stack (see docs/ENVIRONMENTS.md; exact versions pinned in Phase 6).
+# GPT-OSS MXFP4 kernel stack, pinned from the live `.venv_gptoss` on the Spark.
+# `kernels` is what makes the MXFP4 path available; preflight_gptoss.py aborts up front
+# without it, which is the usual symptom of running this arm in the dense env.
 gptoss = [
-    "kernels>=0.4.0",
-    "openai-harmony>=0.0.1",
-    "triton>=3.0.0; sys_platform == 'linux'",
+    "kernels==0.12.3",
+    "openai-harmony==0.0.8",
+    "triton==3.6.0; sys_platform == 'linux'",
 ]
 
 dev = [

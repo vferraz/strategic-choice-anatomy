@@ -1,0 +1,33 @@
+{
+  "method": "unit(d - (d.ell)ell), ell = norm.weight * (W_U[' J'] - W_U[' P']) unit-normalized",
+  "lm_key": "lm_head.weight",
+  "jp_token_ids": {
+    "J": 622,
+    "P": 393
+  },
+  "base_npz": "analysis/block_b/tables/causal_oneshot/directions_akata/llama31_instruct/directions.npz",
+  "git_commit": "7445b0059b36b60742cd7d7daad1328a8a7aa8cd",
+  "created_at": "2026-07-02T16:33:03+00:00",
+  "per_direction": {
+    "d_inc_l65": {
+      "cos_removed": 0.036437,
+      "residual_norm_before_renorm": 0.999336,
+      "check_cos_after": -1.7e-08
+    },
+    "d_inc_l79": {
+      "cos_removed": 0.127716,
+      "residual_norm_before_renorm": 0.991811,
+      "check_cos_after": -4e-09
+    },
+    "d_choice_perp_l65": {
+      "cos_removed": 0.00959,
+      "residual_norm_before_renorm": 0.999954,
+      "check_cos_after": -1.5e-08
+    },
+    "d_choice_perp_l79": {
+      "cos_removed": -0.017211,
+      "residual_norm_before_renorm": 0.999852,
+      "check_cos_after": -3e-09
+    }
+  }
+}

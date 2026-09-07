@@ -10,7 +10,15 @@ regenerate tables.
 | **gpt-oss** | `[analysis,gpu,gptoss,dev]` | Tier 3 GPT-OSS collection and router capture | Linux + CUDA |
 
 `uv.lock` in the repository root pins the full resolved dependency graph. `.python-version` pins
-**3.11**.
+**3.11**, which is the analysis arm.
+
+> **The two GPU arms run on Python 3.12**, not 3.11. This is not a preference: the released
+> substrate and the q = 0.5 steering arm were produced under `torch 2.11.0+cu130`, whose Linux
+> aarch64 wheel is `cp312` and does not install on 3.11. Pinning the versions the science
+> actually ran on therefore requires 3.12 for `[gpu]` and `[gptoss]`. `.python-version` stays at
+> 3.11 because the default path — Tier 1 and Tier 2 — is the analysis arm. Verified on the
+> collection machine 2026-09-07: both GPU environments build from these pins on 3.12 and
+> reproduce `torch 2.11.0+cu130` / `transformers 5.5.0` exactly.
 
 ---
 
@@ -70,7 +78,7 @@ attributed rather than investigated. See `REPRODUCING.md` for the per-figure pix
 ## 2. GPU environment (dense collection and steering)
 
 ```bash
-uv venv --python 3.11 .venv
+uv venv --python 3.12 .venv          # 3.12, not 3.11 — see the note in the header
 uv pip install -e ".[analysis,gpu,dev]"
 ```
 
@@ -78,7 +86,9 @@ Adds `torch`, `transformers`, `accelerate`, and `bitsandbytes` (Linux only — t
 arm64 wheels, so the dependency is marked `sys_platform == 'linux'` and 8-bit loading is
 unavailable on macOS).
 
-Reference: `torch 2.13.0`, `transformers 5.15.0`.
+Reference (the collection machine, exactly): `torch 2.11.0+cu130`, `transformers 5.5.0`,
+`accelerate 1.13.0`, `bitsandbytes 0.49.2`, `tokenizers 0.22.2`, `safetensors 0.7.0`,
+`triton 3.6.0` (pulled in by torch). These are **pinned** in `[gpu]`, not floored — §5.
 
 The three dense models load 8-bit via `collection/model_setup.py::_setup_model`, which installs the
 CPU-first bitsandbytes patch and disables the HF allocator warmup. A raw `from_pretrained`
@@ -97,7 +107,7 @@ OOM-kills the 8-bit load on the reference hardware — use `_setup_model`, not `
 ## 3. GPT-OSS environment (MXFP4)
 
 ```bash
-uv venv --python 3.11 .venv_gptoss
+uv venv --python 3.12 .venv_gptoss    # 3.12, not 3.11 — see the note in the header
 uv pip install -e ".[analysis,gpu,gptoss,dev]"
 ```
 
@@ -123,7 +133,18 @@ does not import or instantiate the model.
 ## 4. Hardware
 
 The released substrate was collected on a single **NVIDIA GB10 (DGX Spark), ~130 GB unified
-memory**, memory-bandwidth-bound. Measured throughput:
+memory**, memory-bandwidth-bound.
+
+| | |
+|---|---|
+| GPU | NVIDIA GB10 (DGX Spark), 1× |
+| Unified memory | ~130 GB (121 GiB visible to the OS) |
+| NVIDIA driver | 580.173.02 |
+| CUDA toolkit | 13.0 (V13.0.88) |
+| Host arch / OS | `aarch64`, Linux 6.17 |
+| Python (GPU arms) | 3.12.3 |
+
+Measured throughput:
 
 | stage | cost |
 |---|---|
@@ -137,11 +158,37 @@ Tier 3 is days of GPU time. Tier 1 and Tier 2 need no GPU at all.
 
 ## 5. Exact GPU pins
 
-The `[gpu]` and `[gptoss]` extras carry lower bounds, and `uv.lock` pins the resolved analysis
-graph. The **exact** versions used on the collection machine — including the CUDA build, driver, and
-the MXFP4 kernel stack — are not resolvable from this checkout; they are recorded in
-`oss_migration/GPU_VERIFICATION_REPORT.md` when the GPU-side verification runs.
+Since Phase 6 (2026-09-07) the `[gpu]` and `[gptoss]` extras carry **exact pins**, read from the
+live environments on the collection machine, and `uv.lock` pins the resolved graph around them.
 
-If you are re-collecting, pin from that report rather than from the lower bounds here: the
-numerics guidance in `METHODS.md` §8.3 exists precisely because the kernel path is not
-interchangeable.
+| package | pin | arm |
+|---|---|---|
+| `torch` | `2.11.0` | gpu, gpt-oss |
+| `transformers` | `5.5.0` | gpu, gpt-oss |
+| `accelerate` | `1.13.0` | gpu, gpt-oss |
+| `tokenizers` | `0.22.2` | gpu, gpt-oss |
+| `safetensors` | `0.7.0` | gpu, gpt-oss |
+| `bitsandbytes` | `0.49.2` (Linux) | gpu |
+| `kernels` | `0.12.3` | gpt-oss |
+| `openai-harmony` | `0.0.8` | gpt-oss |
+| `triton` | `3.6.0` (Linux) | gpt-oss (and pulled in by torch on the dense arm) |
+
+On the reference hardware `torch==2.11.0` resolves to the `manylinux_2_28_aarch64` `cp312` wheel
+and reports itself as `2.11.0+cu130`. The `+cu130` local version is a property of that platform's
+wheel, **not** part of the pin — writing it into `pyproject.toml` would make the project
+unresolvable everywhere else. On a different architecture the same pin gives a different CUDA
+build; if you need bit-level comparability, match the wheel, not just the version.
+
+`transformers` and the MXFP4 kernel stack are pinned rather than floored for a reason: the forward
+hook semantics behind the documented injection-depth off-by-one (§2 above, `METHODS.md` §8.2) and
+the harmony chat-template `Current date:` line (`METHODS.md` §8.3) are both version-dependent. A
+floor here would silently change the intervention rather than fail loudly.
+
+The base libraries (`numpy`, `pandas`, `pyarrow`, `scipy`) stay **floored**, not pinned: the three
+arms legitimately resolve to different versions — the analysis arm was verified on macOS with
+`numpy 2.4.6 / pandas 3.0.5 / pyarrow 25.0.1`, the collection machine ran
+`numpy 2.4.4 / pandas 3.0.2 / pyarrow 23.0.1`, and a fresh 3.12 build there resolves
+`numpy 2.5.3 / pandas 3.0.5`. Hard-pinning them in the shared `dependencies` block would make the
+two arms mutually unsatisfiable for no scientific gain; the Tier-2 hash tests are what guard the
+numerics. The full freezes of both collection environments are reproduced in
+`oss_migration/GPU_VERIFICATION_REPORT.md`.
