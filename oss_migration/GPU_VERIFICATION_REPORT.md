@@ -19,8 +19,8 @@ Covers `oss_migration/PHASE6_gpu_machine.md` steps 1–7 and the SPRINT_q05_gap 
 | q05 extractor CLI provenance proof | **PASS** (§2) |
 | `[gpu]` / `[gptoss]` envs build from the new repo's pins | **PASS** (§3) |
 | §8.1 Spark-only artifacts staged + checksummed | **PASS**, nothing missing (§4) |
-| Test suite | 54/54 base, 7/9 tier-2 (2 skipped, re-run killed) — §5 |
-| Bounded GPU smokes a–e | **NOT RUN** — session stopped externally; gate unmet (§6) |
+| Test suite | 54/54 base; tier-2 7 passed / 2 skipped, re-run not completed — §5 |
+| Bounded GPU smokes | **a, b, c PASS — the gate condition is met.** d/e not run (§6) |
 
 ---
 
@@ -290,50 +290,94 @@ private repo, verified by `git status` there remaining clean throughout.
 
 ## 6. Bounded GPU smokes
 
-**NOT RUN. This gate item is unmet.**
+Run serially, `--smoke-only` throughout, `SCA_DATA_ROOT=~/sca_data_root`,
+`SCA_RESULTS_ROOT=~/sca_scratch/results`. Every arm writes only to
+`$SCA_DATA_ROOT/{akata_preflight, smoke/<arm>}` — new real directories, so no smoke can write into
+the private repo.
 
-The session was stopped externally while smoke (a) was still loading Qwen2.5-72B's weights (54 % of
-963 shards). It had not reached a single assertion, so there is **no smoke evidence in this report** —
-neither pass nor fail. Nothing partial was written: `$SCA_DATA_ROOT/akata_preflight` and
-`$SCA_DATA_ROOT/smoke/` do not exist.
+| smoke | result | wall |
+|---|---|---|
+| a. `collect_dense.sh --smoke-only` | **PASS** | 10m09s |
+| b. `collect_gptoss.sh --smoke-only` | **PASS** | 10m37s |
+| c. `steer_smalldose.sh --smoke-only` | **PASS — 20/20 assertions** | 27m45s |
+| d. `steer_perm.sh --smoke-only` | not run — session stopped externally | — |
+| e. `collect_layerc.sh --smoke-only` | not run | — |
+| f. `--help` sweep, both GPU envs | **PASS — 26/26** | — |
 
-| smoke | status |
+**The PHASE6 gate condition ("smokes a–c PASS against their built-in validators") is met.**
+Arms d and e are additional coverage beyond the gate and remain unverified on this machine, as does
+the tier-2 re-run with the residual cache present (§5).
+
+### a. Dense preflight — expected vs observed
+
+Expected: render → greedy generate → J/P parse → residual at the `A: Option` slot at all layers,
+2 games × 4 cb × 3 dense models; non-zero exit means the mechanism is broken.
+
+Observed: exit 0. **24/24 cells** (`qwen`, `qwen_instruct`, `llama31_instruct` × `AsBa`, `CmDl` × cb0–3).
+8-bit load verified structurally (`Linear8bitLt` at `model.layers.0.self_attn.q_proj`);
+`llama31_instruct` loaded in 126 s with J/P token ids `{'J': 622, 'P': 393}`;
+**`n_resid_layers = 81` on every row**. Wrote `akata_preflight/dense_preflight.csv`,
+`PREFLIGHT_DENSE_DONE`.
+
+### b. GPT-OSS preflight — expected vs observed
+
+Expected: harmony template applies, per-cell classify runs, `router.npz` keys present; aborts up
+front if `kernels` is missing.
+
+Observed: exit 0, **8/8 cells**, `commit_present = True` on every one. The `kernels` guard never
+tripped — the pinned `kernels 0.12.3` / `triton 3.6.0` stack is live. `quantization_config: None`
+(native MXFP4), **router 14 layers, residual 36 layers, top_k 4**. gpt-oss-120b loaded in 404 s
+occupying **65.4 GB** (the doc's "65 GB of weights"); the GB10 reported **130.7 GB free / 130.7 GB
+total**, corroborating the ~130 GB unified figure in §3. Generation ran to natural EOS,
+208–1216 new tokens per cell. `PREFLIGHT_GPTOSS_DONE`.
+
+### c. Small-dose steering gate — expected vs observed
+
+Expected (doc): "the documented PASS bar is 18/18 incl. dose-0 bit-identity vs capture".
+
+Observed: **20/20 PASS, 0 FAIL** — the validator runs 10 assertions per mode across `h1_dinc` and
+`h2_choice`, i.e. two more than the doc records. `SMOKE_VALIDATION_PASS`.
+
+| assertion (both modes) | observed |
 |---|---|
-| a. `collect_dense.sh --smoke-only` | not run (killed during model load) |
-| b. `collect_gptoss.sh --smoke-only` | not run |
-| c. `steer_smalldose.sh --smoke-only` | not run |
-| d. `steer_perm.sh --smoke-only` | not run |
-| e. `collect_layerc.sh --smoke-only` | not run |
-| f. `--help` sweep | **26 / 26 pass** (the one smoke that did complete) |
+| exactly one parquet; 168 rows; 24 cells × 7 doses | PASS |
+| variants `main` / `random` / `main_perp` present | PASS |
+| all status OK; parse rate ≥ 0.90 | **1.000** both modes |
+| **dose-0 identical across layers/variants** | nunique per cb = `{0:1, 1:1, 2:1, 3:1}` |
+| **dose-0 slot pref == substrate capture (4 dp)** | PASS |
+| **dose-0 realized letter == substrate `move_letter`** | PASS |
+| injection alive (max \|Δpref\| at dose ≠ 0) | 0.3911 (`h1_dinc`), 0.1398 (`h2_choice`) |
 
-**Consequently the PHASE6 gate condition "Smokes a–c PASS against their built-in validators" is not
-satisfied by this session.** In particular the documented 18/18 small-dose PASS bar, including
-dose-0 bit-identity against the capture run, is unverified on this machine.
+So on this machine the steering harness reproduces the released capture bit-for-bit at zero dose and
+demonstrably moves the model off it at non-zero dose. Qwen-72B 8-bit occupied 75.4 GB; throughput
+**4.58 s/row** (`h1_dinc`) and **4.45 s/row** (`h2_choice`) against the documented ≈ 4.7 s/row.
 
-What was established beforehand, and makes a re-run cheap:
+### Independent determinism checks (not part of the launchers' gates)
 
-* All five launchers were read and confirmed to `exit 0` immediately after their gate under
-  `--smoke-only` — none can fall through into a full run.
-* Every smoke writes to `$SCA_DATA_ROOT/{akata_preflight, smoke/<arm>}`, all new real directories in
-  the farm, so no smoke can write into the private repo.
-* All four model checkpoints are present in the local HF cache (`Qwen2.5-72B`,
-  `Qwen2.5-72B-Instruct`, `Meta-Llama-3.1-70B-Instruct`, `gpt-oss-120b`).
-* Both GPU environments are built and `torch.cuda.is_available()` is True on the GB10.
-* The `layer_b_cache` is built, so the two skipped tier-2 tests are ready to run.
+Both collection arms were checked against the *released* substrate, not just internally:
 
-To resume, from this clone with `SCA_DATA_ROOT=~/sca_data_root` and
-`SCA_RESULTS_ROOT=~/sca_scratch/results`:
+| arm | check | result |
+|---|---|---|
+| dense | preflight `prompt_sha` vs released `prompt_hash` | **24/24 match** |
+| gpt-oss | `pin_prompt_to_stored` vs stored `prompt_hash` | **16/16 reproduced** |
+
+The gpt-oss prompts do **not** match by direct comparison, and must not: the harmony chat template
+injects a live `Current date:` line, so a prompt built today differs from the original by
+construction. The reproduction path is `collection/recapture_gptoss_transition.py::pin_prompt_to_stored`,
+which brute-forces the date candidates until `prompt_sha256` equals the stored hash and **fails the
+row rather than regenerating it** if none match. All 16 rows checked (4 games × 4 cb) pinned
+successfully, splitting **8× `2026-06-25` / 8× `2026-06-26`** — matching the code's note that the
+original collection crossed UTC midnight. `transformers 5.5.0` therefore reproduces the original
+harmony template byte-for-byte on this machine.
+
+### To finish arms d and e
 
 ```bash
-bash scripts/launchers/collect_dense.sh   --smoke-only
-bash scripts/launchers/collect_gptoss.sh  --smoke-only     # runs under .venv_gptoss
-bash scripts/launchers/steer_smalldose.sh --smoke-only
-bash scripts/launchers/steer_perm.sh      --smoke-only
-bash scripts/launchers/collect_layerc.sh  --smoke-only
-.venv/bin/python -m pytest -q -m tier2                     # now 9 collected, cache present
+export SCA_DATA_ROOT=~/sca_data_root SCA_RESULTS_ROOT=~/sca_scratch/results
+bash scripts/launchers/steer_perm.sh     --smoke-only   # needs directions_akata_perm (staged)
+bash scripts/launchers/collect_layerc.sh --smoke-only
+.venv/bin/python -m pytest -q -m tier2                  # 9 collected, cache present
 ```
-
----
 
 ## 7. Open items
 

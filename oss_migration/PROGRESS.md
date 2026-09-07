@@ -46,12 +46,17 @@ still carries the falsified conclusion.
 6. **Tests**: 54/54 base suite; tier-2 **7 passed / 2 skipped** (the 2 need the Layer-B residual
    cache, which was then built — 5.2 GB — but the re-run that would have exercised them was killed);
    `--help` sweep 26/26.
-7. **Bounded GPU smokes a–e: NOT RUN.** The session was stopped externally while smoke (a) was
-   loading Qwen's weights, before any assertion. **The gate condition "Smokes a–c PASS" is
-   therefore unmet**, and the 18/18 small-dose dose-0 bit-identity bar is unverified here. Nothing
-   partial was written. Everything needed to resume is in place (both GPU envs built, all four
-   checkpoints cached, symlink farm and `layer_b_cache` ready); the commands are in §6 of the
-   report.
+7. **Bounded GPU smokes: a, b, c PASS — the gate condition is met.**
+   `collect_dense` 10m09s (24/24 cells, 81 residual layers each), `collect_gptoss` 10m37s (native
+   MXFP4, router 14 / resid 36 / top_k 4, 65.4 GB), `steer_smalldose` **20/20 assertions** 27m45s
+   including dose-0 bit-identity against the released capture and a live injection
+   (max |Δpref| 0.3911). `--help` sweep 26/26. Arms **d (`steer_perm`) and e (`collect_layerc`)
+   did not run** — the session was stopped externally — and are additional coverage beyond the
+   gate. Resume commands in §6 of the report.
+8. **Independent determinism checks** beyond the launchers' own gates: dense preflight
+   `prompt_sha` matches the released substrate **24/24**; harmony prompts reproduce **16/16** via
+   `pin_prompt_to_stored`, dates splitting 8× 2026-06-25 / 8× 2026-06-26. This machine reproduces
+   the released pipeline's prompts byte-for-byte under the newly pinned environments.
 
 ### Deviations from the written instructions
 
@@ -82,8 +87,8 @@ git -C <this repo> push -u origin phase6-spark
 
 ### Still open
 
-* **Smokes a–e and the tier-2 re-run** — the only substantive gap in this phase. See §6 of the
-  report for the exact resume commands; expect ~1.5–2 h of GPU time.
+* **Smoke arms d (`steer_perm`) and e (`collect_layerc`), and the tier-2 re-run** — beyond the
+  gate, but unverified on this machine. ~45 min of GPU time; resume commands in §6 of the report.
 
 * **D1** (`SPRINT_q05_gap.md`): ship both arms' heavy data, or q05 heavy data + empirical tables
   only. Both arms are staged, so either is available. Vinicius's call.
