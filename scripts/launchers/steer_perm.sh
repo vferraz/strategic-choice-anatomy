@@ -46,6 +46,15 @@ LOG="$SCA_DATA_ROOT"/run_logs/oneshot_akata
 mkdir -p "$LOG"
 CH="$LOG/perm_chain.log"
 
+# Wait for any GPU job (a collection run, the other steering arm) to clear, then settle.
+# Guards matched against the shipped entry-point names, as in the three collection launchers.
+# Without this, LAUNCH.md's recommended order -- steer_smalldose.sh then steer_perm.sh -- starts a
+# 75 GB 8-bit load within a second of the previous arm releasing 75 GB. Measured on the reference
+# GB10: the load degrades from 128 s to ~14.8 s/shard (a ~4 h projection) as the box goes into
+# reclaim. Verified 2026-09-07.
+until ! pgrep -f '[r]un_smalldose\.py|[r]un_perm\.py|[r]un_saturated\.py|[g]enerate_dense_substrate|[g]enerate_gptoss_substrate|[g]enerate_layerc' >/dev/null; do sleep 20; done
+sleep 90
+
 # ------------------------------------------------------------------------------- smoke gate
 echo "$(date -u +%FT%TZ) smoke start (1 game, qwen) -> $SMOKE_ROOT" >> "$CH"
 .venv/bin/python -u steering/run_perm.py \

@@ -77,6 +77,14 @@ Every launcher:
   never overlap on a single-GPU box, followed by a settle delay that lets CUDA memory actually free
   before the next model loads.
 
+> **Do not remove the settle.** Until 2026-09-07 `steer_smalldose.sh` and `steer_perm.sh` were the
+> two arms that lacked it, because they were written to be launched individually — yet the
+> recommended order below runs them back-to-back. On the reference GB10 that starts a 75 GB 8-bit
+> load about a second after the previous arm releases 75 GB, and the box goes into reclaim: the
+> load degrades from **128 s** to **~14.8 s/shard**, a ~4 h projection for work that takes two
+> minutes. Both arms now carry the same guard and a 90 s settle as the three collection
+> launchers. If you chain arms from your own script, keep the same gap between them.
+
 ## Recommended order
 
 ```bash

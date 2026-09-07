@@ -83,6 +83,8 @@ def _make_move_stopper(torch, tokenizer, input_len, is_gptoss, min_new=3, stride
             label, _, _ = _extract_move(withspec, is_gptoss)
             return label is not None
 
+    return StoppingCriteriaList([_MoveStop()])
+
 
 def _generate(model, tokenizer, input_ids, attention_mask, max_new_tokens, do_sample, torch,
               stopping_criteria=None):

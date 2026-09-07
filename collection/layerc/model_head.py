@@ -12,9 +12,12 @@ symbols are live dependencies of the two shipped Layer C collectors.
 """
 from __future__ import annotations
 
+import json
 import logging
 from dataclasses import dataclass
+from pathlib import Path
 
+import numpy as np
 import torch
 from huggingface_hub import snapshot_download
 from safetensors.torch import load_file
@@ -23,6 +26,7 @@ from transformers import AutoConfig, AutoTokenizer
 LOG = logging.getLogger("probe_token_attribution")
 
 
+@dataclass
 class ModelHead:
     lm_head_weight: torch.Tensor  # (vocab, d_model), bf16
     norm_weight: torch.Tensor  # (d_model,), bf16
