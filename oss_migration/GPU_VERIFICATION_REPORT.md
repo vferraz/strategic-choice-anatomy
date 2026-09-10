@@ -19,8 +19,8 @@ Covers `oss_migration/PHASE6_gpu_machine.md` steps 1–7 and the SPRINT_q05_gap 
 | q05 extractor CLI provenance proof | **PASS** (§2) |
 | `[gpu]` / `[gptoss]` envs build from the new repo's pins | **PASS** (§3) |
 | §8.1 Spark-only artifacts staged + checksummed | **PASS**, nothing missing (§4) |
-| Test suite | 54/54 base; tier-2 7 passed / 2 skipped, re-run not completed — §5 |
-| Bounded GPU smokes | **a, b, c PASS — the gate condition is met.** d/e not run (§6) |
+| Test suite | 54/54 base; tier-2 **8 passed / 1 failed** (cross-platform tolerance, §5) |
+| Bounded GPU smokes | **a, b, c, d PASS — gate met.** e unverified; 6 defects found + fixed (§6) |
 
 ---
 
@@ -257,7 +257,7 @@ All runs used `SCA_DATA_ROOT=~/sca_data_root` (the symlink farm, §5.1) in the `
 |---|---|
 | `pytest -q -m "not tier2 and not gpu"` | **54 passed**, 9 deselected, 14 warnings, 7.48 s |
 | `pytest -q -m tier2` (before the residual cache existed) | **7 passed, 2 skipped**, 54 deselected, 13.44 s |
-| `pytest -q -m tier2` (after building the cache) | **NOT COMPLETED — killed mid-run** (see §6) |
+| `pytest -q -m tier2` (after building the cache) | **8 passed, 1 failed**, 0 skipped, 25m53s |
 | `--help` sweep over every collection/steering entry point | **26 / 26 pass** in the declaring env |
 
 The 2 skips were `test_recap_cache_invariants` and `test_recap_layer0_anchor_is_invariant`, which
@@ -265,9 +265,34 @@ need the Layer-B residual cache. That cache was then built and **is present** at
 `$SCA_DATA_ROOT/layer_b_cache` (5.2 GB: `baseline/`, `cues/`, `recap_baseline/`), rebuilt from the
 substrate in 27 s of wall time across the three models
 (`qwen` 9 s, `llama31_instruct` 12 s, `gptoss` 6 s; 576 baseline rows × 8192 dims × 81 layers for the
-dense models, 4032 cue rows at the final layer across 7 conditions). The re-run that would have
-exercised those two tests was killed while `analysis/layer_b/build_crystallization.py` was still
-running, so **the 9/9 tier-2 result is not established** — 7/9 is what this session verified.
+dense models, 4032 cue rows at the final layer across 7 conditions). The re-run with the cache present
+collected all 9: **8 passed, 1 failed**, 0 skipped, 25m53s. Both recap invariants — including the
+46,080-array integrity check — passed.
+
+#### The one tier-2 failure — `test_b1_tables_regenerate`
+
+```
+AssertionError: auc: max rel 1.448e-04 > 1e-09
+```
+
+`RTOL = 1e-9` is effectively bit-identity. The regenerated AUC column agrees with the committed
+`b1_decodability.csv` to about four significant figures, not nine. That table was built on the Mac;
+this run regenerated it here:
+
+| | Spark (this env) | Mac (§1 above) |
+|---|---|---|
+| platform | aarch64 Linux | macOS arm64 |
+| python | 3.12.3 | 3.11.14 |
+| numpy | **2.5.3** | 2.4.6 |
+| scipy | **1.18.1** | 1.17.1 |
+| scikit-learn | 1.8.0 | 1.8.0 (pinned, identical) |
+
+**Deliberately not fixed.** The documented stop condition says a tolerance failure is likely an
+environment-pin difference, to report exact versions and *not* chase it by editing science code;
+loosening `RTOL` or touching the builder would be exactly that. `PHASE6_gpu_machine.md` step 5 asks
+this run to "report any float-tolerance differences vs the Mac", so this is the check working, not a
+defect. No reported claim moves — the decode AUCs are unchanged at reporting precision
+(`canonical_action = 0.866`, `sign_delta1c = 0.869`, …).
 
 ### The symlink farm (§5.1)
 
@@ -300,13 +325,72 @@ the private repo.
 | a. `collect_dense.sh --smoke-only` | **PASS** | 10m09s |
 | b. `collect_gptoss.sh --smoke-only` | **PASS** | 10m37s |
 | c. `steer_smalldose.sh --smoke-only` | **PASS — 20/20 assertions** | 27m45s |
-| d. `steer_perm.sh --smoke-only` | not run — session stopped externally | — |
-| e. `collect_layerc.sh --smoke-only` | not run | — |
+| d. `steer_perm.sh --smoke-only` | **PASS — 10/10 assertions** | 15m12s |
+| e. `collect_layerc.sh --smoke-only` | **FAILED ×3 on real defects; all fixed; never completed** | — |
 | f. `--help` sweep, both GPU envs | **PASS — 26/26** | — |
 
-**The PHASE6 gate condition ("smokes a–c PASS against their built-in validators") is met.**
-Arms d and e are additional coverage beyond the gate and remain unverified on this machine, as does
-the tier-2 re-run with the residual cache present (§5).
+**The PHASE6 gate condition ("smokes a–c PASS against their built-in validators") is met**, and arm d
+passed as well. **Arm e is unverified** (§6.1): its four blocking defects are fixed and committed, but
+this session never observed it complete end-to-end, and no claim is made that it does.
+
+### d. Permutation-control gate — expected vs observed
+
+**10/10 PASS, 0 FAIL**, `SMOKE_VALIDATION_PASS`, on `h1_dinc` with variants `perm0`/`perm1`/`perm2`.
+Same three properties as arm c: dose-0 identical across layers/variants (nunique per cb
+`{0:1, 1:1, 2:1, 3:1}`), dose-0 slot pref equal to the substrate capture at 4 dp, dose-0 realized
+letter equal to the substrate `move_letter`; injection alive at max |Δpref| = 0.2718; parse rate
+1.000; 168 rows. It loads `directions_akata_perm`, so it also exercises the npz staged into
+`_deposit/` (§4) rather than merely checksumming it.
+
+### 6.1 Arm e, and the six defects the smokes surfaced
+
+Arm e failed three times on three *different* real defects, each fixed in turn; the fourth attempt
+got past all of them into `generate_layerc.py` and was interrupted mid-model-load. **Unverified.**
+
+None of the six below is reachable by `pytest`, a plain import, or the `--help` sweep — every one
+fails only when the code path executes. That is what these smokes are for.
+
+| # | file | defect | severity |
+|---|---|---|---|
+| 1 | `collection/layerc/model_head.py` | missing `from pathlib import Path` → `NameError` L52 | **Layer-C arm dead** |
+| 2 | " | missing `import json` → `NameError` L64 | " |
+| 3 | " | missing `import numpy as np` → `NameError` L127 (L120/124 are annotations, lazy under `from __future__ import annotations`) | " |
+| 4 | " | `@dataclass` dropped from `ModelHead` → `TypeError: ModelHead() takes no arguments` | " |
+| 5 | `analysis/layer_a/decision_state.py` | missing `import pandas as pd` → `NameError` L34 | call-time failure |
+| 6 | `collection/genutils.py` | `_make_move_stopper` ends at its `ClassDef`, never returns `StoppingCriteriaList([_MoveStop()])` — returns `None` | latent |
+
+Defects 1–4 meant **both** Layer-C collectors (`generate_layerc.py:161` and
+`capture_bridge_residuals.py:178` call `load_model_head`) could never have run in this repository.
+Defect 6 is latent: nothing here calls `_make_move_stopper` today, but wired up as the private repo
+wires it (`validate_readout_oneshot.py:282`) the caller silently loses early stopping and pays the
+full `max_new_tokens` budget on every generation.
+
+All six share one root cause: modules whose docstrings say symbols were "extracted verbatim" from
+the private repo carried the bodies but not the enclosing imports, and in one case not the decorator.
+`dataclass` was imported but unused, so an unused-import check would not have caught #4 either.
+
+Found systematically rather than one error at a time:
+
+* an AST scan for names used but never bound — now **0 unresolved** across the tracked tree;
+* a symbol-by-symbol diff of every module claiming a verbatim extraction against its cited source —
+  now clean for all seven, with one intended exception (`collection/model_setup.py::_setup_model`
+  carries the deliberate `src.run_sim_spark` → `strategic_anatomy.runtime` rewrite).
+
+### 6.2 Launcher defect: the missing settle
+
+`LAUNCH.md` §Conventions asserted that **every** launcher opens with a `pgrep` guard followed by a
+settle delay. True of the three collection launchers; false of `steer_smalldose.sh` and
+`steer_perm.sh` — which §Recommended order runs back-to-back, both as `--smoke-only` and as the two
+~2-day chains.
+
+Measured here: a 75 GB 8-bit load starting ~1 s after the previous arm released 75 GB drives the box
+into reclaim and degrades from **128 s for the whole load** to **14.79 s/shard** — a ~4 h projection
+for two minutes of work, ~114× on identical work. Re-running the same arm behind a settle: 963 shards
+in 2:04, model ready in 128 s.
+
+Both arms now carry the same guard and 90 s settle as their siblings, and `LAUNCH.md` records why so
+the delay is not optimised away. The guards use the `[r]un_perm\.py` bracket form deliberately: a
+bare pattern matches the searching process's own command line and deadlocks.
 
 ### a. Dense preflight — expected vs observed
 
@@ -389,3 +473,19 @@ bash scripts/launchers/collect_layerc.sh --smoke-only
 - `c902bcd`, named as the Mac tip, resolves in no reachable repo (local, `origin`, or the release
   repo). Reconciliation commands for the Mac are in `~/phase6_docs/spark_state/RECONCILIATION.md`.
 - Deposit staging is `_deposit/` on this machine only; Phase 7 assembles and uploads it.
+- **Arm e (`collect_layerc`) is unverified.** Its four blocking defects are fixed; nobody has yet
+  watched it run to completion. One command, ~4 minutes:
+  `SCA_DATA_ROOT=~/sca_data_root SCA_RESULTS_ROOT=~/sca_scratch/results bash scripts/launchers/collect_layerc.sh --smoke-only`
+- **The tier-2 `auc` tolerance (§5)** is an open decision, not a bug: accept a documented
+  cross-platform tolerance for `b1_decodability`, or regenerate the committed table on the
+  collection machine. Not decided here.
+- **Provenance commit `1f47050` resolves nowhere** — not locally, not on the private remote
+  (`gh api` → 422) — yet **11 release modules cite it** as the source of their verbatim extractions
+  (`model_head.py`, `genutils.py`, `layerc_spec.py`, `model_setup.py`, `prompting.py`,
+  `decision_state.py`, `steer_core.py`, `extract_directions.py` and three `layer_a/frozen/` figure
+  scripts). The §6.1 extraction diffs were therefore run against the private repo's current working
+  tree (`4a05270`), not the cited commit. Worth resolving before release: these citations are the
+  release's provenance record.
+- Four background-task terminations during this session were **not diagnosed**. Distinct from §6.2:
+  the machine was healthy at each (>110 GB free, no kernel OOM at those timestamps) and the durations
+  had no pattern (48 min, ~2 min, ~1 min, ~3 min). Recorded as unexplained rather than attributed.
