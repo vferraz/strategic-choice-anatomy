@@ -79,7 +79,7 @@ attributed rather than investigated. See `REPRODUCING.md` for the per-figure pix
 
 ```bash
 uv venv --python 3.12 .venv          # 3.12, not 3.11 — see the note in the header
-uv pip install -e ".[analysis,gpu,dev]"
+uv pip install -e ".[analysis,gpu,dev]"   # run with no other venv active — uv pip targets the active env first
 ```
 
 Adds `torch`, `transformers`, `accelerate`, and `bitsandbytes` (Linux only — there are no macOS
@@ -108,11 +108,13 @@ OOM-kills the 8-bit load on the reference hardware — use `_setup_model`, not `
 
 ```bash
 uv venv --python 3.12 .venv_gptoss    # 3.12, not 3.11 — see the note in the header
+source .venv_gptoss/bin/activate      # required — uv pip otherwise installs into ./.venv or the active env
 uv pip install -e ".[analysis,gpu,gptoss,dev]"
 ```
 
-Adds `kernels`, `openai-harmony`, and `triton` (Linux). `scripts/setup/setup_gptoss_env.sh`
-provisions it.
+Adds `kernels`, `openai-harmony`, and `triton` (Linux). `scripts/setup/setup_gptoss_env.sh` is the
+original Spark provisioning script, kept as historical reference — it installs **unpinned** latest
+versions (its own header says so); for the pinned environment use the commands above.
 
 **This environment is not optional for GPT-OSS.** A generic analysis or GPU environment lacks the
 `kernels` package, MXFP4-fallbacks, and **changes the router code path** — see `METHODS.md` §8.3 and

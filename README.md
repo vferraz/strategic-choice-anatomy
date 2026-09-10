@@ -36,14 +36,21 @@ Tier 3 (re-collecting the substrate or re-running the steering) needs a **separa
 Python 3.12** — the pinned `torch 2.11.0` ships as a `cp312` wheel on the reference hardware:
 
 ```bash
+# dense collection + steering
 uv venv --python 3.12 .venv
-uv pip install -e ".[analysis,gpu,dev]"          # dense collection + steering
-uv pip install -e ".[analysis,gpu,gptoss,dev]"   # GPT-OSS (into a separate .venv_gptoss)
+uv pip install -e ".[analysis,gpu,dev]"
+
+# GPT-OSS — its own venv; activate it first, or uv pip installs into .venv above
+uv venv --python 3.12 .venv_gptoss
+source .venv_gptoss/bin/activate
+uv pip install -e ".[analysis,gpu,gptoss,dev]"
 ```
 
-See `docs/ENVIRONMENTS.md` for the exact pins, the hardware, and why the arms differ.
-
-See [`docs/ENVIRONMENTS.md`](docs/ENVIRONMENTS.md) for the GPU and GPT-OSS environments.
+The GPT-OSS environment is separate **by design, not because of a version conflict** — the shared
+pins are identical. The `kernels` MXFP4 stack changes the GPT-OSS code path by its very presence
+(`docs/METHODS.md` §8.3, HC-7), and each arm reproduces the exact live environment its released
+data was collected under. See [`docs/ENVIRONMENTS.md`](docs/ENVIRONMENTS.md) for the exact pins,
+the hardware, and the full rationale.
 
 ## Reproducibility tiers
 
