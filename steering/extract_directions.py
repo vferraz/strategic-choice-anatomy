@@ -57,7 +57,7 @@ from collection.oneshot_common import (  # noqa: E402
     load_game_vec,
 )
 
-# Verbatim from analysis/block_b/_common.py:61 (private repo, commit 1f47050).
+# Verbatim from analysis/block_b/_common.py:61 (private repo, commit 8d8370e).
 # Inlined rather than imported: _common.py is excluded from the release (plan §5) and
 # creates four output directories as an import-time side effect.
 HIDDEN = {"qwen": 8192, "qwen_instruct": 8192, "llama31_instruct": 8192, "gptoss": 2880}

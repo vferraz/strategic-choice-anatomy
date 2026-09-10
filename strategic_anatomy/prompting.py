@@ -1,6 +1,6 @@
 """Prompt construction, counterbalancing schedules, and move parsing.
 
-Moved verbatim out of ``src/run_sim_spark.py`` (private repo, commit 1f47050) during
+Moved verbatim out of ``src/run_sim_spark.py`` (private repo, commit 8d8370e) during
 the open-source migration. Nothing in this module imports ``torch`` or ``transformers``,
 which is what lets the analysis layers, the collection-side prompt builders, and the test
 suite run in an ``[analysis]``-only environment. ``strategic_anatomy.runtime`` re-exports

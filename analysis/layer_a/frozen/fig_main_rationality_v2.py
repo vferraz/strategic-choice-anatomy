@@ -13,7 +13,7 @@ Variant 'max'  : y = 1 − distance/max-distance-to-NE.
 Outputs fig_rationality_by_class_v3_raw_harmonized.{png,pdf} and _max_harmonized.{png,pdf}.
 Does NOT touch make_rationality_figure_v3.py or v1/v2.
 """
-# Ported from analysis/block_a/ (private repo, commit 1f47050). Release plan §5 excludes
+# Ported from analysis/block_a/ (private repo, commit 8d8370e). Release plan §5 excludes
 # "analysis/block_a figure scripts (superseded by layer_a figscripts)", but these three are
 # NOT superseded: analysis/layer_a/src/fig1_rationality.py and src/fig2_trait_steering.py
 # import them and re-point only the data source and output dir, reusing the frozen plotting

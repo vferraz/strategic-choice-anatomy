@@ -20,7 +20,7 @@ Covers `oss_migration/PHASE6_gpu_machine.md` steps 1–7 and the SPRINT_q05_gap 
 | `[gpu]` / `[gptoss]` envs build from the new repo's pins | **PASS** (§3) |
 | §8.1 Spark-only artifacts staged + checksummed | **PASS**, nothing missing (§4) |
 | Test suite | 54/54 base; tier-2 **8 passed / 1 failed** (cross-platform tolerance, §5) |
-| Bounded GPU smokes | **a, b, c, d PASS — gate met.** e unverified; 6 defects found + fixed (§6) |
+| Bounded GPU smokes | **all five PASS** (a–e) + `--help` 26/26; 6 defects found and fixed (§6) |
 
 ---
 
@@ -287,12 +287,33 @@ this run regenerated it here:
 | scipy | **1.18.1** | 1.17.1 |
 | scikit-learn | 1.8.0 | 1.8.0 (pinned, identical) |
 
-**Deliberately not fixed.** The documented stop condition says a tolerance failure is likely an
-environment-pin difference, to report exact versions and *not* chase it by editing science code;
-loosening `RTOL` or touching the builder would be exactly that. `PHASE6_gpu_machine.md` step 5 asks
-this run to "report any float-tolerance differences vs the Mac", so this is the check working, not a
-defect. No reported claim moves — the decode AUCs are unchanged at reporting precision
-(`canonical_action = 0.866`, `sign_delta1c = 0.869`, …).
+**Not chased in science code**, per the stop condition — neither `RTOL` nor the builders were
+touched. The difference is not confined to the column the test reported: it appears in every
+AUC-derived column of all four b1 tables, while every structural column (`n`, `n_games`, `n_obs`,
+`layer`, `depth_frac`, `row_scope`, `embedding_auc`, `onset_depth_frac`, `peak_depth_frac`) is
+exactly identical. Measured spread:
+
+| column | max abs | max rel | typical value |
+|---|---|---|---|
+| `decodability / auc` | 9.65e-05 | 1.45e-04 | ~0.832 |
+| `equilibrium_structure / bal_acc` | 4.63e-03 | 7.76e-03 | ~0.544 |
+| `crystallization / auc` | 9.73e-04 | 1.20e-03 | ~0.661 |
+| `crystallization_summary / collapse` | 5.40e-04 | 1.27e-02 | ~0.053 |
+
+Nothing exceeds **4.63e-03** absolute; the large relative figures sit on small
+differences-of-AUCs (`collapse` = peak − final ≈ 0.05), where a relative tolerance is misleading.
+
+**Resolution (PI decision): the b1 tables were regenerated on this machine** and committed. The
+regeneration is deterministic here — a second independent run produced output bit-identical to the
+first — so tier-2 now passes at `RTOL = 1e-9` on this platform.
+
+**Consequence, stated plainly:** the committed b1 tables are now Spark-generated, so the same
+cross-platform delta now runs in the opposite direction and tier-2 will fail on the Mac. The paper
+figure built from these tables (`fig_layerB_main_v2.py`) was rebuilt and its inputs move by at most
+9.73e-04 on values of 0.66–0.83 — below the three decimals the figure reports, so no claim shifts.
+A pixel diff against the committed reference render was deliberately not used as evidence: this
+machine has matplotlib 3.11.1 against the reference's 3.10.8, so it would chiefly measure the
+renderer, not the numbers.
 
 ### The symlink farm (§5.1)
 
@@ -326,12 +347,11 @@ the private repo.
 | b. `collect_gptoss.sh --smoke-only` | **PASS** | 10m37s |
 | c. `steer_smalldose.sh --smoke-only` | **PASS — 20/20 assertions** | 27m45s |
 | d. `steer_perm.sh --smoke-only` | **PASS — 10/10 assertions** | 15m12s |
-| e. `collect_layerc.sh --smoke-only` | **FAILED ×3 on real defects; all fixed; never completed** | — |
+| e. `collect_layerc.sh --smoke-only` | **PASS** — after 3 failures on real defects, all fixed | 7m23s |
 | f. `--help` sweep, both GPU envs | **PASS — 26/26** | — |
 
-**The PHASE6 gate condition ("smokes a–c PASS against their built-in validators") is met**, and arm d
-passed as well. **Arm e is unverified** (§6.1): its four blocking defects are fixed and committed, but
-this session never observed it complete end-to-end, and no claim is made that it does.
+**All five arms pass.** The PHASE6 gate condition ("smokes a–c PASS against their built-in
+validators") is met, and d and e pass beyond it.
 
 ### d. Permutation-control gate — expected vs observed
 
@@ -344,8 +364,11 @@ letter equal to the substrate `move_letter`; injection alive at max |Δpref| = 0
 
 ### 6.1 Arm e, and the six defects the smokes surfaced
 
-Arm e failed three times on three *different* real defects, each fixed in turn; the fourth attempt
-got past all of them into `generate_layerc.py` and was interrupted mid-model-load. **Unverified.**
+Arm e failed three times on three *different* real defects, each fixed in turn. With all six fixes
+in place it now **passes in 7m23s**: `layerc exit=0`, `bridge exit=0`, `LAYERC_SMOKE_PASS`, writing
+`layerc/qwen/AsAs/{tokens.parquet, config.json, _DONE}` and
+`bridge/qwen/AsAs/{resid.npy, meta.parquet, config.json, _DONE}`. So the fixes restored the arm
+end-to-end, not merely past the import errors.
 
 None of the six below is reachable by `pytest`, a plain import, or the `--help` sweep — every one
 fails only when the code path executes. That is what these smokes are for.
@@ -473,19 +496,19 @@ bash scripts/launchers/collect_layerc.sh --smoke-only
 - `c902bcd`, named as the Mac tip, resolves in no reachable repo (local, `origin`, or the release
   repo). Reconciliation commands for the Mac are in `~/phase6_docs/spark_state/RECONCILIATION.md`.
 - Deposit staging is `_deposit/` on this machine only; Phase 7 assembles and uploads it.
-- **Arm e (`collect_layerc`) is unverified.** Its four blocking defects are fixed; nobody has yet
-  watched it run to completion. One command, ~4 minutes:
-  `SCA_DATA_ROOT=~/sca_data_root SCA_RESULTS_ROOT=~/sca_scratch/results bash scripts/launchers/collect_layerc.sh --smoke-only`
-- **The tier-2 `auc` tolerance (§5)** is an open decision, not a bug: accept a documented
-  cross-platform tolerance for `b1_decodability`, or regenerate the committed table on the
-  collection machine. Not decided here.
-- **Provenance commit `1f47050` resolves nowhere** — not locally, not on the private remote
-  (`gh api` → 422) — yet **11 release modules cite it** as the source of their verbatim extractions
-  (`model_head.py`, `genutils.py`, `layerc_spec.py`, `model_setup.py`, `prompting.py`,
-  `decision_state.py`, `steer_core.py`, `extract_directions.py` and three `layer_a/frozen/` figure
-  scripts). The §6.1 extraction diffs were therefore run against the private repo's current working
-  tree (`4a05270`), not the cited commit. Worth resolving before release: these citations are the
-  release's provenance record.
-- Four background-task terminations during this session were **not diagnosed**. Distinct from §6.2:
-  the machine was healthy at each (>110 GB free, no kernel OOM at those timestamps) and the durations
-  had no pattern (48 min, ~2 min, ~1 min, ~3 min). Recorded as unexplained rather than attributed.
+- **Provenance citation corrected.** Eleven modules cited `1f47050` as the source commit of their
+  verbatim extractions; **no object beginning `1f470` exists in the private repo at all**, and the
+  hash is absent from its remote (`gh api` → 422). The private repo has **no commits between
+  2026-07-26 and 2026-08-22**, so when the phase-1+2 port was made (release `534ec9d`, 2026-08-15)
+  its HEAD was `8d8370e`. Every cited source file — `probe_token_attribution.py`,
+  `generate_oneshot_substrate.py`, `validate_readout_oneshot.py`, `generate_oneshot_layerc.py`,
+  `fig_decision_state_supervised.py`, `run_sim_spark.py`, `run_causal_protocol_oneshot.py`,
+  `_common.py`, `analysis/block_a/` — is **byte-identical at `8d8370e` and at `4a05270`**, so the
+  extraction content is verifiable either way; only the hash was wrong. All 11 citations now read
+  `commit 8d8370e`.
+- Four background-task terminations were **narrowed but not fully diagnosed**. They are not the
+  machine: `journalctl -k` shows **zero** Linux OOM-killer events in the whole window, >110 GB was
+  free at each, and the box stayed responsive (uptime unbroken). They occurred at the Claude Code
+  session layer, and the last coincided with that session ending — the work resumed three days
+  later in a new one. Distinct from §6.2, which is a real and measured repo defect. No run was lost:
+  every arm was re-run to completion.

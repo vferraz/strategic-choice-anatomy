@@ -1,7 +1,7 @@
 """Model loading and crash-safe persistence primitives shared by the collectors.
 
 Extracted verbatim from ``analysis/block_b/generate_oneshot_substrate.py`` (private repo,
-commit 1f47050): ``_git_commit``, ``_now``, ``_sha256_file``, ``_fsync_dir``,
+commit 8d8370e): ``_git_commit``, ``_now``, ``_sha256_file``, ``_fsync_dir``,
 ``resolve_cue_list`` and ``_setup_model``. That module is the superseded A/B-matrix
 generator and is not part of the release (plan §4.3: extract the reused helpers, drop the
 generator).

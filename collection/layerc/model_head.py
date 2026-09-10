@@ -1,7 +1,7 @@
 """Unembedding-head loading and per-token logit-difference scoring for Layer C.
 
 Extracted verbatim from ``analysis/block_c/probe_token_attribution.py`` (private repo,
-commit 1f47050): ``LOG`` (L46), ``letter_token_id`` (L130), ``ModelHead`` (L147),
+commit 8d8370e): ``LOG`` (L46), ``letter_token_id`` (L130), ``ModelHead`` (L147),
 ``load_model_head`` (L154), ``free_model_head`` (L212), ``apply_rmsnorm`` (L224) and
 ``per_token_score_diff_opt0_minus_opt1`` (L232).
 

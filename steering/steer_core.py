@@ -1,7 +1,7 @@
 """Steering hook readout helpers.
 
 ``_signed_cos`` is extracted verbatim from
-``analysis/block_b/run_causal_protocol_oneshot.py`` (private repo, commit 1f47050, line 129).
+``analysis/block_b/run_causal_protocol_oneshot.py`` (private repo, commit 8d8370e, line 129).
 That module is not part of the release: it imports ``run_causal_protocol_v2``, which in
 turn imports ``src.run_scripted_opponent_batch`` — a module that exists only under
 ``_legacy/`` and therefore breaks at import in the private repo today.

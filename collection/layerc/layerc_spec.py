@@ -1,7 +1,7 @@
 """Locked Layer C capture constants and condition ordering.
 
 Extracted verbatim from ``analysis/block_c/generate_oneshot_layerc.py`` (private repo,
-commit 1f47050): ``LAYERS_DEFAULT`` (L62), ``DENSE_MODELS`` (L63), ``CUE_TO_TRAITCOL``
+commit 8d8370e): ``LAYERS_DEFAULT`` (L62), ``DENSE_MODELS`` (L63), ``CUE_TO_TRAITCOL``
 (L65), ``ROW_COLS`` (L70) and ``_conditions`` (L91). The originating module is the
 A/B-matrix Layer C generator, excluded by plan §5; the Akata generator reuses only these
 locked constants and the condition-ordering helper.

@@ -1,7 +1,7 @@
 """Out-of-fold supervised decision-state helpers.
 
 Extracted verbatim from ``analysis/block_b/fig_decision_state_supervised.py`` (private repo,
-commit 1f47050): ``RNG_SEED`` (L54), ``oof_dir`` (L62), ``auc`` (L88) and ``_ellipse`` (L97).
+commit 8d8370e): ``RNG_SEED`` (L54), ``oof_dir`` (L62), ``auc`` (L88) and ``_ellipse`` (L97).
 The originating module is an A/B-era figure script excluded by plan §5; these four symbols are
 the only ones ``analysis/probe_common.py`` imports from it.
 """

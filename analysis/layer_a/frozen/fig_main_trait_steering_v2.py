@@ -19,7 +19,7 @@ Two panels carrying the whole logic:
 Reads the audited outputs of trait_steering_proper.py.  Round 1.
 Outputs: analysis/layer_a/figures/fig_main_trait_steering_v2clean.{png,pdf}
 """
-# Ported from analysis/block_a/ (private repo, commit 1f47050). Release plan §5 excludes
+# Ported from analysis/block_a/ (private repo, commit 8d8370e). Release plan §5 excludes
 # "analysis/block_a figure scripts (superseded by layer_a figscripts)", but these three are
 # NOT superseded: analysis/layer_a/src/fig1_rationality.py and src/fig2_trait_steering.py
 # import them and re-point only the data source and output dir, reusing the frozen plotting

@@ -17,7 +17,7 @@ MP -> mixed NE.  MP games whose mixed NE == (0.5,0.5) are excluded.
 Unit of analysis = game; CIs = bootstrap over games (Griffiths variants collapsed
 to per-canonical means first).
 """
-# Ported from analysis/block_a/ (private repo, commit 1f47050). Release plan §5 excludes
+# Ported from analysis/block_a/ (private repo, commit 8d8370e). Release plan §5 excludes
 # "analysis/block_a figure scripts (superseded by layer_a figscripts)", but these three are
 # NOT superseded: analysis/layer_a/src/fig1_rationality.py and src/fig2_trait_steering.py
 # import them and re-point only the data source and output dir, reusing the frozen plotting

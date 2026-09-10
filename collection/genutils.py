@@ -1,7 +1,7 @@
 """Generation-side helpers shared by the collection entry points.
 
 Extracted verbatim from ``analysis/block_b/validate_readout_oneshot.py`` (private repo,
-commit 1f47050): ``HARMONY_FINAL_MARKER``, ``HARMONY_END_RE``, ``STANDALONE_LETTER_RE`` and
+commit 8d8370e): ``HARMONY_FINAL_MARKER``, ``HARMONY_END_RE``, ``STANDALONE_LETTER_RE`` and
 ``_extract_move``. The originating module is an A/B-era validator that is not part of the
 release (plan §4.3 keeps only the reused functions).
 
